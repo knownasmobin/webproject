@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strconv"
 
+	"git.ecobin.ir/ecomicro/template/domain"
 	"git.ecobin.ir/ecomicro/x"
-	"git.ecobin.ir/services/template/domain"
 
 	"github.com/gin-gonic/gin"
 )

@@ -35,7 +35,8 @@ func NewUserHandler(g *gin.Engine, authMiddleware gin.HandlerFunc, uu domain.Use
 func (uh *userHandler) getUser(ctx *gin.Context) {
 	userId, err := strconv.ParseUint(ctx.GetString("userId"), 10, 64)
 	if err != nil {
-		return x.ErrHandler(ctx, err, errMap)
+		x.ErrHandler(ctx, err, errMap)
+		return
 	}
 	user, err := uh.Usecase.GetUserById(ctx, userId)
 	if err != nil {

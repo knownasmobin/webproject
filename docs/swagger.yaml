@@ -1,0 +1,56 @@
+basePath: /
+definitions:
+  domain.User:
+    properties:
+      allow:
+        items:
+          type: string
+        type: array
+      createdDate:
+        type: string
+      deny:
+        items:
+          type: string
+        type: array
+      id:
+        type: integer
+      roles:
+        items:
+          type: string
+        type: array
+      updatedDate:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: some desc
+  title: template Service API
+  version: "1.0"
+paths:
+  /user:
+    get:
+      consumes:
+      - application/json
+      description: get user
+      parameters:
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.User'
+            type: array
+      summary: get user
+      tags:
+      - user
+schemes:
+- http
+swagger: "2.0"

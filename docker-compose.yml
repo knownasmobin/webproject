@@ -1,0 +1,24 @@
+version: '3'
+services:
+  postgres:
+    image: postgres
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: template
+      POSTGRES_USER: template
+      POSTGRES_PASSWORD: password
+  ui:
+      image: registry.ecobin.ir/ecomicro/template:latest
+      depends_on:
+        - postgres
+      volumes:
+        -
+          type: bind
+          source: ./template.json
+          target: /app/template.json
+      ports:
+        - "127.0.0.1:10022:8080"
+        - "127.0.0.1:10023:10000"
+volumes:
+  postgres:

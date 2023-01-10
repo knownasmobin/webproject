@@ -1,0 +1,5 @@
+*.o
+*.log
+/tmp/
+.idea/
+*.json

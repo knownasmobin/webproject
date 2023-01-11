@@ -59,14 +59,17 @@ func main() {
 
 	// Service setup
 	myService, err = service.NewService("template", wd, config.JSON, &c)
-	log.Fatal(err, "Failed to create new service!")
+	if err != nil {
+		log.Fatal(err, "Failed to create new service!")
+	}
 
 	dbConf := myService.Database["template"].GormDB
 	sonyflake := sonyflake.NewSonyflake(sonyflake.Settings{StartTime: time.Now()})
 	// Transport setup
 	t, err := transport.NewTransport(myService)
-	log.Fatal(err, "Failed to create new transport!")
-
+	if err != nil {
+		log.Fatal(err, "Failed to create new transport!")
+	}
 	usecases := setUsecase(dbConf, sonyflake)
 	httpConf := t.Config().Http["main"]
 	// *****run http server*****

@@ -9,10 +9,10 @@ build: clean
 	go build -o ${BINARY} main.go
 
 compose:
-	docker-compose up -d
+	docker compose up -d
 
 compose-dev:
-	docker-compose -f docker-compose-dev.yml up -d
+	docker compose -f docker-compose-dev.yml up -d
 
 run: build
 	$(build)

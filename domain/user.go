@@ -9,9 +9,9 @@ type User struct {
 	Id          uint64
 	CreatedDate time.Time
 	UpdatedDate time.Time
-	Roles       *[]string
-	Allow       *[]string
-	Deny        *[]string
+	Roles       []string
+	Allow       []string
+	Deny        []string
 }
 
 type UserUsecase interface {

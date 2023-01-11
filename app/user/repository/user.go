@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"time"
 
 	"git.ecobin.ir/ecomicro/template/domain"
 
@@ -16,38 +15,6 @@ type userRepository struct {
 }
 
 var _ domain.UserRepository = &userRepository{}
-
-type User struct {
-	Id          uint64 `gorm:"primaryKey;unique"`
-	CreatedDate time.Time
-	UpdatedDate time.Time
-	Roles       *[]string
-	Allow       *[]string
-	Deny        *[]string
-	DeletedAt   gorm.DeletedAt `gorm:"index"`
-}
-
-func FromDomainUser(user domain.User) User {
-	return User{
-		Id:          user.Id,
-		CreatedDate: user.CreatedDate,
-		UpdatedDate: user.UpdatedDate,
-		Roles:       user.Roles,
-		Allow:       user.Allow,
-		Deny:        user.Deny,
-	}
-}
-
-func (u *User) ToDomainUser() domain.User {
-	return domain.User{
-		Id:          u.Id,
-		CreatedDate: u.CreatedDate,
-		UpdatedDate: u.UpdatedDate,
-		Roles:       u.Roles,
-		Allow:       u.Allow,
-		Deny:        u.Deny,
-	}
-}
 
 func NewUserRepository(dbConnection *gorm.DB) *userRepository {
 	err := dbConnection.AutoMigrate(&User{})

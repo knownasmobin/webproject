@@ -36,6 +36,23 @@ definitions:
           type: string
         type: array
     type: object
+  http.UpdateUserBody:
+    properties:
+      allow:
+        items:
+          type: string
+        type: array
+      deny:
+        items:
+          type: string
+        type: array
+      id:
+        type: integer
+      roles:
+        items:
+          type: string
+        type: array
+    type: object
 host: localhost:8080
 info:
   contact: {}
@@ -88,6 +105,32 @@ paths:
           schema:
             $ref: '#/definitions/domain.User'
       summary: create user
+      tags:
+      - user
+    put:
+      consumes:
+      - application/json
+      description: update user
+      parameters:
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: body params
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/http.UpdateUserBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.User'
+      summary: update user
       tags:
       - user
   /user/{id}:

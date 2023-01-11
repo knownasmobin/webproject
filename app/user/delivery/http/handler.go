@@ -28,6 +28,9 @@ func NewUserHandler(g *gin.Engine, authMiddleware gin.HandlerFunc, uu domain.Use
 	rg.POST("",
 		//  authMiddleware,
 		handler.createUser)
+	rg.PUT("",
+		//  authMiddleware,
+		handler.updateUser)
 }
 
 // get user godoc
@@ -101,6 +104,32 @@ func (uh *userHandler) createUser(ctx *gin.Context) {
 		return
 	}
 	user, err := uh.Usecase.Create(ctx, body.toDomain())
+	if err != nil {
+		x.ErrHandler(ctx, err, errMap)
+		return
+	}
+	ctx.JSON(http.StatusOK, user)
+}
+
+// update user godoc
+// @Summary update user
+// @Schemes
+// @Description  update user
+// @Tags user
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Bearer jwtToken"
+// @Param body body UpdateUserBody true "body params"
+// @Success 200 {object} domain.User
+// @Router /user [put]
+func (uh *userHandler) updateUser(ctx *gin.Context) {
+	var body UpdateUserBody
+	err := ctx.Bind(&body)
+	if err != nil {
+		x.ErrHandler(ctx, domain.ErrUnprocessableEntity, errMap)
+		return
+	}
+	user, err := uh.Usecase.Update(ctx, body.toDomain())
 	if err != nil {
 		x.ErrHandler(ctx, err, errMap)
 		return

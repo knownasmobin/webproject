@@ -28,7 +28,7 @@ func (ur *userRepository) Create(ctx context.Context, domainUser domain.User) (*
 	defer tooty.CloseTheAPMSpan(span)
 
 	userDao := FromDomainUser(domainUser)
-	result := ur.Conn.Create(&userDao)
+	result := ur.Conn.Debug().Create(&userDao)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -39,7 +39,7 @@ func (ur *userRepository) GetUserById(ctx context.Context, id uint64) (*domain.U
 	span := tooty.OpenAnAPMSpan(ctx, "[R] get user by id", "repository")
 	defer tooty.CloseTheAPMSpan(span)
 	var userDao User
-	err := ur.Conn.WithContext(ctx).Where(User{Id: id}).Find(&userDao).Error
+	err := ur.Conn.WithContext(ctx).Debug().Where(User{Id: id}).Find(&userDao).Error
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +50,7 @@ func (ur *userRepository) Update(ctx context.Context, condition domain.User, dom
 	span := tooty.OpenAnAPMSpan(ctx, "[R] update user", "repository")
 	defer tooty.CloseTheAPMSpan(span)
 	var userArray []User
-	err := ur.Conn.WithContext(ctx).Model(&userArray).Clauses(clause.Returning{}).Where(FromDomainUser(condition)).Updates(FromDomainUser(domainUser)).Error
+	err := ur.Conn.WithContext(ctx).Debug().Model(&userArray).Clauses(clause.Returning{}).Where(FromDomainUser(condition)).Updates(FromDomainUser(domainUser)).Error
 	if err != nil {
 		return []domain.User{}, err
 	}

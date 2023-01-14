@@ -2,4 +2,4 @@
 *.log
 /tmp/
 .idea/
-*.json
+template.json

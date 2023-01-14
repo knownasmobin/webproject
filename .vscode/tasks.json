@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "copyConfig",
+            "command" : "cp",
+            "args": ["-f", "-r", "${workspaceFolder}/*.json", "/tmp"]
+        }
+    ]
+}

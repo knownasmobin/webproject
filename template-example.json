@@ -1,0 +1,42 @@
+{
+  "mode": "debug",
+  "Database": {
+    "template": {
+      "Type": "psql",
+      "connStr": "host=localhost port=5432 user=template password=password dbname=template sslmode=disable"
+    }
+  },
+  "Transport": {
+    "http": {
+      "main": {
+        "ip": "0.0.0.0",
+        "port": 8080,
+        "readTimeout": null,
+        "writeTimeout": null,
+        "cors": {
+          "enable": true,
+          "allowedOrigins": [
+            "*"
+          ]
+        }
+      }
+    },
+    "grpc": {
+      "server": {
+        "template": {
+          "ip": "0.0.0.0",
+          "port": 50000
+        }
+      }
+    },
+    "auth": {
+      "ip": "0.0.0.0",
+      "port": 55891
+    }
+  },
+  "Tooty": {
+    "Server": "http://0.0.0.0:8200",
+    "Secret": ""
+  },
+  "ServiceConfig": {}
+}

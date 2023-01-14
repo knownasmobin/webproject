@@ -16,6 +16,7 @@ require (
 )
 
 require (
+	git.ecobin.ir/ecomicro/protobuf/template/grpc v0.0.0-20230114081721-d5d9d879a87d // indirect
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/PuerkitoBio/purell v1.1.1 // indirect
 	github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578 // indirect

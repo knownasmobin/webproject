@@ -14,11 +14,15 @@ compose:
 compose-dev:
 	docker compose -f docker-compose-dev.yml up -d
 
+run-foo:
+	go run ./extra/foo-main.go
+
 run: build
 	$(build)
 	./${BINARY}
 
-watch: compose-dev
+watch: compose-dev 
+	/bin/sh -c 'go run ./extra/foo-main.go &'
 	sleep 1
 	air
 

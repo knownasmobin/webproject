@@ -10,6 +10,7 @@ import (
 	userRepo "git.ecobin.ir/ecomicro/template/app/user/repository"
 	userUsecase "git.ecobin.ir/ecomicro/template/app/user/usecase"
 	"git.ecobin.ir/ecomicro/template/domain"
+	userFooAdapter "git.ecobin.ir/ecomicro/template/infra/adapters/foo"
 	"git.ecobin.ir/ecomicro/transport"
 	"github.com/gin-gonic/gin"
 	"github.com/sony/sonyflake"
@@ -23,10 +24,12 @@ type usecases struct {
 	UserUsecase domain.UserUsecase
 }
 
-func setUsecase(db *gorm.DB, sf *sonyflake.Sonyflake) usecases {
+func setUsecase(db *gorm.DB, sf *sonyflake.Sonyflake, fooConnection *grpc.ClientConn) usecases {
 	uiRepo := userRepo.NewUserRepository(db)
 	uiUsecase := userUsecase.NewUserUsecase(uiRepo, sf)
+	fooAdapter := userFooAdapter.NewFooAdapter(fooConnection)
 
+	uiUsecase.SetAdapters(fooAdapter)
 	return usecases{
 		UserUsecase: uiUsecase,
 	}
@@ -52,7 +55,11 @@ func Boot(service *service.Service) {
 	if err != nil {
 		log.Fatal(err, "Failed to create new transport!")
 	}
-	usecases := setUsecase(dbConf, sonyflake)
+	fooGrpcConnection, err := t.GRPCClient("foo")
+	if err != nil {
+		log.Fatal("fail to dial grpc client : ", err)
+	}
+	usecases := setUsecase(dbConf, sonyflake, fooGrpcConnection)
 	httpConf := t.Config().Http["main"]
 	// *****run http server*****
 	_, err = t.HTTP("main", func(g *gin.Engine) {
@@ -66,8 +73,5 @@ func Boot(service *service.Service) {
 	_, err = t.GRPCSevrer("template", func(g *grpc.Server) {
 		setGRPCHandlers(g, usecases)
 	})
-	if err != nil {
-		log.Fatal("fail to run grpc server : ", err)
-	}
 
 }

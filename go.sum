@@ -267,6 +267,10 @@ cloud.google.com/go/workflows v1.8.0/go.mod h1:ysGhmEajwZxGn1OhGOGKsTXc5PyxOc0vf
 dmitri.shuralyov.com/gpu/mtl v0.0.0-20190408044501-666a987793e9/go.mod h1:H6x//7gZCb22OMCxBHrMx7a5I7Hp++hsVxbQ4BYO7hU=
 git.ecobin.ir/ecomicro/bootstrap v0.0.0-20230110121501-09263839ee13 h1:Zn5FAqkYoNd83tG+HIhXpzKy5dMVD6DclD9Ld/R+NtU=
 git.ecobin.ir/ecomicro/bootstrap v0.0.0-20230110121501-09263839ee13/go.mod h1:oGVBwoCK52XEXjYnHXXO6ObZ3f2bKUg16xfj2EA+ZEI=
+git.ecobin.ir/ecomicro/protobuf/foo/grpc v0.0.0-20230115093610-4653888109c0 h1:Oe5Qed40Vxa+xfqNiCH1S3cwudz5yMlYgihVUm96qE0=
+git.ecobin.ir/ecomicro/protobuf/foo/grpc v0.0.0-20230115093610-4653888109c0/go.mod h1:QeuiXbR+DE3+ruLy3KFREuHR+HrSkNh/ZFcCPFTJ5dQ=
+git.ecobin.ir/ecomicro/protobuf/foo/grpc v0.0.0-20230115094306-00ad836d8d30 h1:4LsA59o2Y1y/WLc7YOYdb+k8GC0QrUNGun854/J6oJg=
+git.ecobin.ir/ecomicro/protobuf/foo/grpc v0.0.0-20230115094306-00ad836d8d30/go.mod h1:QeuiXbR+DE3+ruLy3KFREuHR+HrSkNh/ZFcCPFTJ5dQ=
 git.ecobin.ir/ecomicro/protobuf/template/grpc v0.0.0-20230114073619-950009d4d722 h1:KNHHMJIFc0gdhL6KOkp7kDA0+Vh7tDr+ddI2RdsGRQE=
 git.ecobin.ir/ecomicro/protobuf/template/grpc v0.0.0-20230114073619-950009d4d722/go.mod h1:jCuOePdAH2qMhy+6pSihhQ9iaCFvaoRh6tm/KvZkuJs=
 git.ecobin.ir/ecomicro/protobuf/template/grpc v0.0.0-20230114080016-771e1dcfb7ff h1:rMjf181+3fn19IaAiX6BkM1S8rCCR+7IxGNFdwQ9I+M=

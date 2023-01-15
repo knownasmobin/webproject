@@ -3,14 +3,17 @@ package usecase
 import (
 	"context"
 
+	adapters "git.ecobin.ir/ecomicro/template/app/user/adapter"
 	"git.ecobin.ir/ecomicro/template/domain"
 	"git.ecobin.ir/ecomicro/tooty"
+	"git.ecobin.ir/ecomicro/x"
 	"github.com/sony/sonyflake"
 )
 
 type userUsecase struct {
-	userRepo domain.UserRepository
-	sf       *sonyflake.Sonyflake
+	userRepo   domain.UserRepository
+	sf         *sonyflake.Sonyflake
+	fooAdapter adapters.FooAdapter
 }
 
 var _ domain.UserUsecase = &userUsecase{}
@@ -20,6 +23,9 @@ func NewUserUsecase(userRepo domain.UserRepository, sf *sonyflake.Sonyflake) *us
 		userRepo: userRepo,
 		sf:       sf,
 	}
+}
+func (uu *userUsecase) SetAdapters(fooAdapter adapters.FooAdapter) {
+	uu.fooAdapter = fooAdapter
 }
 func (uu *userUsecase) Create(
 	ctx context.Context,
@@ -36,6 +42,10 @@ func (uu *userUsecase) Create(
 	dbUser, err := uu.userRepo.Create(ctx, user)
 	if err != nil {
 		return nil, err
+	}
+	err = uu.fooAdapter.Bar(ctx, *dbUser)
+	if err != nil {
+		x.LogError(err, ctx)
 	}
 	return dbUser, nil
 }

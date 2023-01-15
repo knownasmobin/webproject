@@ -46,12 +46,12 @@ func NewUserHandler(g *gin.Engine, authMiddleware gin.HandlerFunc, uu domain.Use
 func (uh *userHandler) getUser(ctx *gin.Context) {
 	userId, err := strconv.ParseUint(ctx.GetString("userId"), 10, 64)
 	if err != nil {
-		x.ErrHandler(ctx, err, errMap)
+		x.HttpErrHandler(ctx, err, errMap)
 		return
 	}
 	user, err := uh.Usecase.GetUserById(ctx, userId)
 	if err != nil {
-		x.ErrHandler(ctx, err, errMap)
+		x.HttpErrHandler(ctx, err, errMap)
 		return
 	}
 	ctx.JSON(http.StatusOK, user)
@@ -73,13 +73,13 @@ func (uh *userHandler) getUserById(ctx *gin.Context) {
 	var uri UserIdUri
 	err := ctx.BindUri(&uri)
 	if err != nil {
-		x.ErrHandler(ctx, domain.ErrUnprocessableEntity, errMap)
+		x.HttpErrHandler(ctx, domain.ErrUnprocessableEntity, errMap)
 		return
 	}
 
 	user, err := uh.Usecase.GetUserById(ctx, uri.Id)
 	if err != nil {
-		x.ErrHandler(ctx, err, errMap)
+		x.HttpErrHandler(ctx, err, errMap)
 		return
 	}
 	ctx.JSON(http.StatusOK, user)
@@ -100,12 +100,12 @@ func (uh *userHandler) createUser(ctx *gin.Context) {
 	var body CreateUserBody
 	err := ctx.Bind(&body)
 	if err != nil {
-		x.ErrHandler(ctx, domain.ErrUnprocessableEntity, errMap)
+		x.HttpErrHandler(ctx, domain.ErrUnprocessableEntity, errMap)
 		return
 	}
 	user, err := uh.Usecase.Create(ctx, body.toDomain())
 	if err != nil {
-		x.ErrHandler(ctx, err, errMap)
+		x.HttpErrHandler(ctx, err, errMap)
 		return
 	}
 	ctx.JSON(http.StatusOK, user)
@@ -126,12 +126,12 @@ func (uh *userHandler) updateUser(ctx *gin.Context) {
 	var body UpdateUserBody
 	err := ctx.Bind(&body)
 	if err != nil {
-		x.ErrHandler(ctx, domain.ErrUnprocessableEntity, errMap)
+		x.HttpErrHandler(ctx, domain.ErrUnprocessableEntity, errMap)
 		return
 	}
 	user, err := uh.Usecase.Update(ctx, body.toDomain())
 	if err != nil {
-		x.ErrHandler(ctx, err, errMap)
+		x.HttpErrHandler(ctx, err, errMap)
 		return
 	}
 	ctx.JSON(http.StatusOK, user)

@@ -6,6 +6,7 @@ import (
 	pb "git.ecobin.ir/ecomicro/protobuf/template/grpc"
 	"git.ecobin.ir/ecomicro/template/domain"
 	"git.ecobin.ir/ecomicro/tooty"
+	"git.ecobin.ir/ecomicro/x"
 	"google.golang.org/grpc"
 )
 
@@ -32,7 +33,8 @@ func (ugh *userGrpcHandler) CreateUser(
 
 	user, err := ugh.Usecase.Create(ctx, createUserToDomain(protoUser))
 	if err != nil {
-		return nil, GrpcResponseError(err, errMap)
+
+		return nil, x.GrpcErrHandler(ctx, err, errMap).ToError()
 	}
 	return toCreateUserResponse(user), nil
 }
@@ -49,7 +51,7 @@ func (ugh *userGrpcHandler) UpdateUser(
 
 	user, err := ugh.Usecase.Update(ctx, updateUserToDomain(protoUser))
 	if err != nil {
-		return nil, GrpcResponseError(err, errMap)
+		return nil, x.GrpcErrHandler(ctx, err, errMap).ToError()
 	}
 	return toUpdateUserResponse(user), nil
 }
@@ -66,7 +68,7 @@ func (ugh *userGrpcHandler) GetUser(
 
 	user, err := ugh.Usecase.GetUserById(ctx, protoUser.UserId)
 	if err != nil {
-		return nil, GrpcResponseError(err, errMap)
+		return nil, x.GrpcErrHandler(ctx, err, errMap).ToError()
 	}
 	return toGetUserResponse(user), nil
 }

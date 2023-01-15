@@ -7,7 +7,7 @@ import (
 	"git.ecobin.ir/ecomicro/x"
 )
 
-var errMap = x.ErrorMap{
+var errMap = x.ErrorMap[x.HttpCustomError]{
 	domain.ErrUnprocessableEntity: {
 		Status:       http.StatusUnprocessableEntity,
 		CodeResponse: UnprocessableEntityResponse,

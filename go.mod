@@ -5,8 +5,8 @@ go 1.19
 require (
 	git.ecobin.ir/ecomicro/bootstrap v0.0.0-20230110121501-09263839ee13
 	git.ecobin.ir/ecomicro/tooty v0.0.0-20230110121536-fda8954b2459
-	git.ecobin.ir/ecomicro/transport v0.0.0-20230110123659-64fe5f60daa7
-	git.ecobin.ir/ecomicro/x v0.0.0-20230110121814-225f7873e36c
+	git.ecobin.ir/ecomicro/transport v0.0.0-20230110125533-38979b490009
+	git.ecobin.ir/ecomicro/x v0.0.0-20230115121324-4538c508983c
 	github.com/gin-gonic/gin v1.8.2
 	github.com/sony/sonyflake v1.1.0
 	github.com/swaggo/files v1.0.0

@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"git.ecobin.ir/ecomicro/template/domain"
+	"git.ecobin.ir/ecomicro/template/app/baz/domain"
 
 	"git.ecobin.ir/ecomicro/tooty"
 	"gorm.io/gorm"
@@ -13,7 +13,7 @@ type bazRepository struct {
 	Conn *gorm.DB
 }
 
-var _ domain.BazRepository = &bazRepository{}
+var _ domain.Repository = &bazRepository{}
 
 func NewBazRepository(dbConnection *gorm.DB) *bazRepository {
 	err := dbConnection.AutoMigrate(&Baz{})

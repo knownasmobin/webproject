@@ -23,7 +23,7 @@
     },
     "grpc": {
       "server": {
-        "template": {
+        "user": {
           "ip": "0.0.0.0",
           "port": 50000
         }

@@ -1,7 +1,7 @@
 package grpc
 
 import (
-	"git.ecobin.ir/ecomicro/template/domain"
+	"git.ecobin.ir/ecomicro/template/app/user/domain"
 	"git.ecobin.ir/ecomicro/x"
 	"google.golang.org/grpc/codes"
 )

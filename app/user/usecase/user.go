@@ -3,29 +3,29 @@ package usecase
 import (
 	"context"
 
-	adapters "git.ecobin.ir/ecomicro/template/app/user/adapter"
-	"git.ecobin.ir/ecomicro/template/domain"
+	"git.ecobin.ir/ecomicro/template/app/user/domain"
 	"git.ecobin.ir/ecomicro/tooty"
 	"git.ecobin.ir/ecomicro/x"
 	"github.com/sony/sonyflake"
 )
 
 type userUsecase struct {
-	userRepo   domain.UserRepository
+	userRepo   domain.Repository
 	sf         *sonyflake.Sonyflake
-	fooAdapter adapters.FooAdapter
-	bazAdapter adapters.BazAdapter
+	fooAdapter domain.FooAdapter
+	bazAdapter domain.BazAdapter
 }
 
-var _ domain.UserUsecase = &userUsecase{}
+var _ domain.Usecase = &userUsecase{}
+var _ domain.Adapter = &userUsecase{}
 
-func NewUserUsecase(userRepo domain.UserRepository, sf *sonyflake.Sonyflake) *userUsecase {
+func NewUserUsecase(userRepo domain.Repository, sf *sonyflake.Sonyflake) *userUsecase {
 	return &userUsecase{
 		userRepo: userRepo,
 		sf:       sf,
 	}
 }
-func (uu *userUsecase) SetAdapters(fooAdapter adapters.FooAdapter, bazAdapter adapters.BazAdapter) {
+func (uu *userUsecase) SetAdapters(fooAdapter domain.FooAdapter, bazAdapter domain.BazAdapter) {
 	uu.fooAdapter = fooAdapter
 	uu.bazAdapter = bazAdapter
 }
@@ -33,6 +33,7 @@ func (uu *userUsecase) Create(
 	ctx context.Context,
 	user domain.User,
 ) (*domain.User, error) {
+
 	span := tooty.OpenAnAPMSpan(ctx, "[U] create new user", "usecase")
 	defer tooty.CloseTheAPMSpan(span)
 

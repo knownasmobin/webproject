@@ -4,18 +4,18 @@ import (
 	"context"
 
 	pb "git.ecobin.ir/ecomicro/protobuf/template/grpc"
-	"git.ecobin.ir/ecomicro/template/domain"
+	"git.ecobin.ir/ecomicro/template/app/user/domain"
 	"git.ecobin.ir/ecomicro/tooty"
 	"git.ecobin.ir/ecomicro/x"
 	"google.golang.org/grpc"
 )
 
 type userGrpcHandler struct {
-	Usecase domain.UserUsecase
+	Usecase domain.Usecase
 	pb.UnimplementedTemplateServer
 }
 
-func NewUserHandler(server *grpc.Server, usecase domain.UserUsecase) {
+func NewUserHandler(server *grpc.Server, usecase domain.Usecase) {
 	pb.RegisterTemplateServer(server, &userGrpcHandler{Usecase: usecase})
 }
 

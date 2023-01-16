@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+const DomainName = "user"
+
 type User struct {
 	Id          uint64
 	CreatedDate time.Time
@@ -14,13 +16,25 @@ type User struct {
 	Deny        []string
 }
 
-type UserUsecase interface {
+type Usecase interface {
 	GetUserById(ctx context.Context, id uint64) (*User, error)
 	Create(ctx context.Context, u User) (*User, error)
 	Update(ctx context.Context, u User) (*User, error)
 }
-type UserRepository interface {
+
+type Repository interface {
 	GetUserById(ctx context.Context, id uint64) (*User, error)
 	Create(ctx context.Context, user User) (*User, error)
 	Update(ctx context.Context, condition User, data User) ([]User, error)
+}
+
+type Adapter interface {
+	SetAdapters(fooAdapter FooAdapter, bazAdapter BazAdapter)
+}
+type BazAdapter interface {
+	Create(ctx context.Context, user User) error
+}
+
+type FooAdapter interface {
+	Bar(ctx context.Context, user User) error
 }

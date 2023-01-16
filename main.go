@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 
 	"git.ecobin.ir/ecomicro/bootstrap/service"
-	bootstrap "git.ecobin.ir/ecomicro/template/boot"
+	boot "git.ecobin.ir/ecomicro/template/boot"
 
 	"git.ecobin.ir/ecomicro/bootstrap/config"
 	conf "git.ecobin.ir/ecomicro/template/config"
@@ -32,7 +32,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err, "Failed to create new service!")
 	}
-	bootstrap.Boot(myService)
+	boot.Boot(myService)
 
 	myService.Done()
 }

@@ -1,6 +1,6 @@
 package http
 
-import "git.ecobin.ir/ecomicro/template/domain"
+import "git.ecobin.ir/ecomicro/template/app/user/domain"
 
 type CreateUserBody struct {
 	Roles []string `json:"roles"`

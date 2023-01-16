@@ -3,17 +3,17 @@ package usecase
 import (
 	"context"
 
-	"git.ecobin.ir/ecomicro/template/domain"
+	"git.ecobin.ir/ecomicro/template/app/baz/domain"
 	"git.ecobin.ir/ecomicro/tooty"
 )
 
 type bazUsecase struct {
-	bazRepo domain.BazRepository
+	bazRepo domain.Repository
 }
 
-var _ domain.BazUsecase = &bazUsecase{}
+var _ domain.Usecase = &bazUsecase{}
 
-func NewBazUsecase(bazRepo domain.BazRepository) *bazUsecase {
+func NewBazUsecase(bazRepo domain.Repository) *bazUsecase {
 	return &bazUsecase{
 		bazRepo: bazRepo,
 	}

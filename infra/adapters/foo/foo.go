@@ -4,8 +4,7 @@ import (
 	"context"
 
 	pb "git.ecobin.ir/ecomicro/protobuf/foo/grpc"
-	userAdapters "git.ecobin.ir/ecomicro/template/app/user/adapter"
-	"git.ecobin.ir/ecomicro/template/domain"
+	userDomain "git.ecobin.ir/ecomicro/template/app/user/domain"
 	"git.ecobin.ir/ecomicro/tooty"
 	"google.golang.org/grpc"
 )
@@ -14,13 +13,13 @@ type fooAdapter struct {
 	fooClient pb.FooClient
 }
 
-var _ userAdapters.FooAdapter = &fooAdapter{}
+var _ userDomain.FooAdapter = &fooAdapter{}
 
 func NewFooAdapter(fooConnection *grpc.ClientConn) *fooAdapter {
 	fooClient := pb.NewFooClient(fooConnection)
 	return &fooAdapter{fooClient}
 }
-func (e *fooAdapter) Bar(ctx context.Context, user domain.User) error {
+func (e *fooAdapter) Bar(ctx context.Context, user userDomain.User) error {
 	span := tooty.OpenAnAPMSpan(ctx, "[A] bar", "adapter")
 	defer tooty.CloseTheAPMSpan(span)
 

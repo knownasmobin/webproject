@@ -4,7 +4,7 @@ import (
 	"time"
 
 	pb "git.ecobin.ir/ecomicro/protobuf/template/grpc"
-	"git.ecobin.ir/ecomicro/template/domain"
+	"git.ecobin.ir/ecomicro/template/app/user/domain"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 

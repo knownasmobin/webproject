@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"git.ecobin.ir/ecomicro/template/domain"
+	"git.ecobin.ir/ecomicro/template/app/user/domain"
 
 	"git.ecobin.ir/ecomicro/tooty"
 	"gorm.io/gorm"
@@ -14,7 +14,7 @@ type userRepository struct {
 	Conn *gorm.DB
 }
 
-var _ domain.UserRepository = &userRepository{}
+var _ domain.Repository = &userRepository{}
 
 func NewUserRepository(dbConnection *gorm.DB) *userRepository {
 	err := dbConnection.AutoMigrate(&User{})

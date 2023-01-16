@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"git.ecobin.ir/ecomicro/template/domain"
+	"git.ecobin.ir/ecomicro/template/app/user/domain"
 	"gorm.io/gorm"
 )
 

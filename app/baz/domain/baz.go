@@ -11,9 +11,13 @@ type Baz struct {
 	UpdatedDate time.Time
 }
 
-type BazUsecase interface {
+type Usecase interface {
 	Create(ctx context.Context, baz Baz) (*Baz, error)
 }
-type BazRepository interface {
+type Repository interface {
 	Create(ctx context.Context, baz Baz) (*Baz, error)
+}
+
+type Adapter interface {
+	SetAdapters()
 }

@@ -3,25 +3,25 @@ package baz
 import (
 	"context"
 
-	userAdapters "git.ecobin.ir/ecomicro/template/app/user/adapter"
-	"git.ecobin.ir/ecomicro/template/domain"
+	bazDomain "git.ecobin.ir/ecomicro/template/app/baz/domain"
+	userDomain "git.ecobin.ir/ecomicro/template/app/user/domain"
 	"git.ecobin.ir/ecomicro/tooty"
 )
 
 type bazAdapter struct {
-	usecase domain.BazUsecase
+	usecase bazDomain.Usecase
 }
 
-var _ userAdapters.BazAdapter = &bazAdapter{}
+var _ userDomain.BazAdapter = &bazAdapter{}
 
-func NewBazUsecaseAdapter(usecase domain.BazUsecase) *bazAdapter {
+func NewBazUsecaseAdapter(usecase bazDomain.Usecase) *bazAdapter {
 	return &bazAdapter{usecase}
 }
-func (e *bazAdapter) Create(ctx context.Context, user domain.User) error {
+func (e *bazAdapter) Create(ctx context.Context, user userDomain.User) error {
 	span := tooty.OpenAnAPMSpan(ctx, "[A] create", "adapter")
 	defer tooty.CloseTheAPMSpan(span)
 
-	_, err := e.usecase.Create(ctx, domain.Baz{UserId: user.Id})
+	_, err := e.usecase.Create(ctx, bazDomain.Baz{UserId: user.Id})
 
 	return err
 }

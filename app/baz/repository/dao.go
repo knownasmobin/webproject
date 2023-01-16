@@ -3,7 +3,7 @@ package repository
 import (
 	"time"
 
-	"git.ecobin.ir/ecomicro/template/domain"
+	"git.ecobin.ir/ecomicro/template/app/baz/domain"
 	"gorm.io/gorm"
 )
 

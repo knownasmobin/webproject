@@ -4,17 +4,17 @@ import (
 	"net/http"
 	"strconv"
 
-	"git.ecobin.ir/ecomicro/template/domain"
+	"git.ecobin.ir/ecomicro/template/app/user/domain"
 	"git.ecobin.ir/ecomicro/x"
 
 	"github.com/gin-gonic/gin"
 )
 
 type userHandler struct {
-	Usecase domain.UserUsecase
+	Usecase domain.Usecase
 }
 
-func NewUserHandler(g *gin.Engine, authMiddleware gin.HandlerFunc, uu domain.UserUsecase) {
+func NewUserHandler(g *gin.Engine, authMiddleware gin.HandlerFunc, uu domain.Usecase) {
 	rg := g.Group("/user")
 	handler := &userHandler{
 		Usecase: uu,

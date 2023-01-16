@@ -1,7 +1,6 @@
 package boot
 
 import (
-	"fmt"
 	"log"
 
 	"git.ecobin.ir/ecomicro/bootstrap/service"
@@ -12,16 +11,6 @@ import (
 	"git.ecobin.ir/ecomicro/x/structure"
 	"gorm.io/gorm"
 )
-
-func getFromMap[T any](stringMap map[string]interface{}, key string) T {
-	if value, ok := stringMap[key]; ok {
-		if v, ok := value.(T); ok {
-			return v
-		}
-		panic(fmt.Sprintf("assertion failed: %+v", stringMap[key]))
-	}
-	panic(fmt.Sprintf("key not found: map is=> %+v  and key is %+v", stringMap, key))
-}
 
 type bazBoot struct {
 	transport *transport.Transport
@@ -38,7 +27,7 @@ func (b *bazBoot) ApplyRepository(boot structure.Boot) {
 	boot.Repositories[domain.DomainName] = bazRepo.NewBazRepository(b.db)
 }
 func (b *bazBoot) ApplyUsecase(boot structure.Boot) {
-	bazRepository := getFromMap[domain.Repository](boot.Repositories, domain.DomainName)
+	bazRepository := structure.GetFromMap[domain.Repository](boot.Repositories, domain.DomainName)
 	if _, ok := boot.Usecases[domain.DomainName]; ok {
 		log.Fatalf("baz usecase already exist in usecase map.")
 	}

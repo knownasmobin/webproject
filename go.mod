@@ -6,7 +6,7 @@ require (
 	git.ecobin.ir/ecomicro/bootstrap v0.0.0-20230110121501-09263839ee13
 	git.ecobin.ir/ecomicro/tooty v0.0.0-20230110121536-fda8954b2459
 	git.ecobin.ir/ecomicro/transport v0.0.0-20230110125533-38979b490009
-	git.ecobin.ir/ecomicro/x v0.0.0-20230116120309-9fb73db6a2b0
+	git.ecobin.ir/ecomicro/x v0.0.0-20230116122806-a312845bc07c
 	github.com/gin-gonic/gin v1.8.2
 	github.com/sony/sonyflake v1.1.0
 	github.com/swaggo/files v1.0.0

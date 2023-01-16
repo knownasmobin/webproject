@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+const DomainName = "baz"
+
 type Baz struct {
 	UserId      uint64
 	CreatedDate time.Time

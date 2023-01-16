@@ -7,8 +7,8 @@ import (
 	"git.ecobin.ir/ecomicro/bootstrap/service"
 	baz "git.ecobin.ir/ecomicro/template/app/baz/boot"
 	user "git.ecobin.ir/ecomicro/template/app/user/boot"
-	"git.ecobin.ir/ecomicro/template/domain"
 	"git.ecobin.ir/ecomicro/transport"
+	"git.ecobin.ir/ecomicro/x/structure"
 	"github.com/gin-gonic/gin"
 	"github.com/sony/sonyflake"
 	swaggerFiles "github.com/swaggo/files"
@@ -25,12 +25,12 @@ func Boot(service *service.Service) {
 		log.Fatal(err, "Failed to create new transport!")
 	}
 
-	boots := make([]domain.Boot, 0)
+	boots := make([]structure.BootInterface, 0)
 	// boot domains
 	boots = append(boots, baz.Boot(service, t))
 	boots = append(boots, user.Boot(service, sonyflake, t))
 
-	bootData := domain.DomainBoot{
+	bootData := structure.Boot{
 		GrpcServers:  make(map[string]interface{}),
 		GrpcClients:  make(map[string]interface{}),
 		Usecases:     make(map[string]interface{}),

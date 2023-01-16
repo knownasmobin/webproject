@@ -11,10 +11,10 @@ import (
 	"git.ecobin.ir/ecomicro/template/app/user/domain"
 	userRepo "git.ecobin.ir/ecomicro/template/app/user/repository"
 	userUsecase "git.ecobin.ir/ecomicro/template/app/user/usecase"
-	mainDomain "git.ecobin.ir/ecomicro/template/domain"
 	userBazAdapter "git.ecobin.ir/ecomicro/template/infra/adapters/baz"
 	userFooAdapter "git.ecobin.ir/ecomicro/template/infra/adapters/foo"
 	"git.ecobin.ir/ecomicro/transport"
+	"git.ecobin.ir/ecomicro/x/structure"
 	"github.com/sony/sonyflake"
 	"google.golang.org/grpc"
 	"gorm.io/gorm"
@@ -37,38 +37,38 @@ type userBoot struct {
 	db        *gorm.DB
 }
 
-var _ mainDomain.Boot = &userBoot{}
+var _ structure.BootInterface = &userBoot{}
 
-func (b *userBoot) ApplyRepository(boot mainDomain.DomainBoot) {
+func (b *userBoot) ApplyRepository(boot structure.Boot) {
 	if _, ok := boot.Repositories[domain.DomainName]; ok {
 		log.Fatalf("user repository already exist in repository map.")
 	}
-	boot.Repositories["user"] = userRepo.NewUserRepository(b.db)
+	boot.Repositories[domain.DomainName] = userRepo.NewUserRepository(b.db)
 }
 
-func (b *userBoot) ApplyUsecase(boot mainDomain.DomainBoot) {
-	userRepository := getFromMap[domain.Repository](boot.Repositories, "user")
-	if _, ok := boot.Usecases["user"]; ok {
+func (b *userBoot) ApplyUsecase(boot structure.Boot) {
+	userRepository := getFromMap[domain.Repository](boot.Repositories, domain.DomainName)
+	if _, ok := boot.Usecases[domain.DomainName]; ok {
 		log.Fatalf("user usecase already exist in usecase map.")
 	}
-	boot.Usecases["user"] = userUsecase.NewUserUsecase(userRepository, b.sonyflake)
+	boot.Usecases[domain.DomainName] = userUsecase.NewUserUsecase(userRepository, b.sonyflake)
 }
-func (b *userBoot) ApplyHttpHandler(boot mainDomain.DomainBoot) {
-	userUsecase := getFromMap[domain.Usecase](boot.Usecases, "user")
+func (b *userBoot) ApplyHttpHandler(boot structure.Boot) {
+	userUsecase := getFromMap[domain.Usecase](boot.Usecases, domain.DomainName)
 	authMiddleware, err := b.transport.AuthMiddleware()
 	if err != nil {
 		log.Fatalf("fail to create auth middleware.")
 	}
 	userHttp.NewUserHandler(boot.Gin, authMiddleware, userUsecase)
 }
-func (b *userBoot) ApplyGrpcHandler(boot mainDomain.DomainBoot) {
-	userUsecase := getFromMap[domain.Usecase](boot.Usecases, "user")
-	grpcServer := getFromMap[*grpc.Server](boot.GrpcServers, "user")
+func (b *userBoot) ApplyGrpcHandler(boot structure.Boot) {
+	userUsecase := getFromMap[domain.Usecase](boot.Usecases, domain.DomainName)
+	grpcServer := getFromMap[*grpc.Server](boot.GrpcServers, domain.DomainName)
 	userGRPC.NewUserHandler(grpcServer, userUsecase)
 }
-func (b *userBoot) ApplyAdapters(boot mainDomain.DomainBoot) {
-	userUsecase := getFromMap[domain.Adapter](boot.Usecases, "user")
-	bazUsecase := getFromMap[bazDomain.Usecase](boot.Usecases, "baz")
+func (b *userBoot) ApplyAdapters(boot structure.Boot) {
+	userUsecase := getFromMap[domain.Adapter](boot.Usecases, domain.DomainName)
+	bazUsecase := getFromMap[bazDomain.Usecase](boot.Usecases, bazDomain.DomainName)
 	fooGrpcClient := getFromMap[*grpc.ClientConn](boot.GrpcClients, "foo")
 
 	fooAdapter := userFooAdapter.NewFooAdapter(fooGrpcClient)

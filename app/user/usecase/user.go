@@ -14,6 +14,7 @@ type userUsecase struct {
 	userRepo   domain.UserRepository
 	sf         *sonyflake.Sonyflake
 	fooAdapter adapters.FooAdapter
+	bazAdapter adapters.BazAdapter
 }
 
 var _ domain.UserUsecase = &userUsecase{}
@@ -24,8 +25,9 @@ func NewUserUsecase(userRepo domain.UserRepository, sf *sonyflake.Sonyflake) *us
 		sf:       sf,
 	}
 }
-func (uu *userUsecase) SetAdapters(fooAdapter adapters.FooAdapter) {
+func (uu *userUsecase) SetAdapters(fooAdapter adapters.FooAdapter, bazAdapter adapters.BazAdapter) {
 	uu.fooAdapter = fooAdapter
+	uu.bazAdapter = bazAdapter
 }
 func (uu *userUsecase) Create(
 	ctx context.Context,
@@ -44,6 +46,10 @@ func (uu *userUsecase) Create(
 		return nil, err
 	}
 	err = uu.fooAdapter.Bar(ctx, *dbUser)
+	if err != nil {
+		x.LogError(err, ctx)
+	}
+	err = uu.bazAdapter.Create(ctx, *dbUser)
 	if err != nil {
 		x.LogError(err, ctx)
 	}

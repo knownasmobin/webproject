@@ -5,11 +5,14 @@ import (
 	"time"
 
 	"git.ecobin.ir/ecomicro/bootstrap/service"
+	bazRepo "git.ecobin.ir/ecomicro/template/app/baz/repository"
+	bazUsecase "git.ecobin.ir/ecomicro/template/app/baz/usecase"
 	userGRPC "git.ecobin.ir/ecomicro/template/app/user/delivery/grpc"
 	userHttp "git.ecobin.ir/ecomicro/template/app/user/delivery/http"
 	userRepo "git.ecobin.ir/ecomicro/template/app/user/repository"
 	userUsecase "git.ecobin.ir/ecomicro/template/app/user/usecase"
 	"git.ecobin.ir/ecomicro/template/domain"
+	userBazAdapter "git.ecobin.ir/ecomicro/template/infra/adapters/baz"
 	userFooAdapter "git.ecobin.ir/ecomicro/template/infra/adapters/foo"
 	"git.ecobin.ir/ecomicro/transport"
 	"github.com/gin-gonic/gin"
@@ -22,16 +25,21 @@ import (
 
 type usecases struct {
 	UserUsecase domain.UserUsecase
+	BazUsecase  domain.BazUsecase
 }
 
 func setUsecase(db *gorm.DB, sf *sonyflake.Sonyflake, fooConnection *grpc.ClientConn) usecases {
-	uiRepo := userRepo.NewUserRepository(db)
-	uiUsecase := userUsecase.NewUserUsecase(uiRepo, sf)
+	userRepo := userRepo.NewUserRepository(db)
+	bazRepo := bazRepo.NewBazRepository(db)
+	userUsecase := userUsecase.NewUserUsecase(userRepo, sf)
+	bazUsecase := bazUsecase.NewBazUsecase(bazRepo)
 	fooAdapter := userFooAdapter.NewFooAdapter(fooConnection)
+	bazAdapter := userBazAdapter.NewBazUsecaseAdapter(bazUsecase)
 
-	uiUsecase.SetAdapters(fooAdapter)
+	userUsecase.SetAdapters(fooAdapter, bazAdapter)
 	return usecases{
-		UserUsecase: uiUsecase,
+		UserUsecase: userUsecase,
+		BazUsecase:  bazUsecase,
 	}
 }
 

@@ -20,5 +20,12 @@ services:
       ports:
         - "127.0.0.1:10022:8080"
         - "127.0.0.1:10023:10000"
+  redis-cache:
+    image: redis
+    ports:
+      - "6389:6379"
+    volumes:
+      - redis_data:/data
 volumes:
+  redis_data:
   postgres:

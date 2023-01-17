@@ -10,5 +10,12 @@ services:
       POSTGRES_PASSWORD: password
     ports:
       - 5432:5432
+  redis-cache:
+    image: redis
+    ports:
+      - "6389:6379"
+    volumes:
+      - redis_data:/data
 volumes:
+  redis_data:
   postgres:

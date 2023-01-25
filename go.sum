@@ -297,6 +297,8 @@ git.ecobin.ir/ecomicro/x v0.0.0-20230116120309-9fb73db6a2b0 h1:56Y4PGbxxI6rKbQtW
 git.ecobin.ir/ecomicro/x v0.0.0-20230116120309-9fb73db6a2b0/go.mod h1:UJ7qobY6KTXsKZI7snEUP7aO4tQXCleMZ+mgxaDtLy4=
 git.ecobin.ir/ecomicro/x v0.0.0-20230116122806-a312845bc07c h1:pIf3lCWS1pL7OJpoXF0+SwH1o7sqRB37i85BMr9lwzY=
 git.ecobin.ir/ecomicro/x v0.0.0-20230116122806-a312845bc07c/go.mod h1:UJ7qobY6KTXsKZI7snEUP7aO4tQXCleMZ+mgxaDtLy4=
+git.ecobin.ir/ecomicro/x v0.0.0-20230125094223-d7ce62e0ca26 h1:yAk7xQ08LrAgjRAVFuDUvq7CqZ9a79nPwbDDo8LFxMg=
+git.ecobin.ir/ecomicro/x v0.0.0-20230125094223-d7ce62e0ca26/go.mod h1:UJ7qobY6KTXsKZI7snEUP7aO4tQXCleMZ+mgxaDtLy4=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/KyleBanks/depth v1.2.1 h1:5h8fQADFrWtarTdtDudMmGsC7GPbOAu6RVB3ffsVFHc=

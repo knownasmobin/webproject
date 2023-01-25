@@ -10,6 +10,7 @@ import (
 	bootDB "git.ecobin.ir/ecomicro/bootstrap/db"
 	"git.ecobin.ir/ecomicro/template/app/user/domain"
 	"git.ecobin.ir/ecomicro/template/app/user/repository"
+	"git.ecobin.ir/ecomicro/x"
 	"github.com/sony/sonyflake"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -59,11 +60,11 @@ func (m *fooAdapterMock) Bar(ctx context.Context, user domain.User) error {
 
 // baz adapter
 type sonyflakeMock struct {
-	SonyflakeInterface
+	x.Sonyflake
 	mock.Mock
 }
 
-var _ SonyflakeInterface = &sonyflakeMock{}
+var _ x.Sonyflake = &sonyflakeMock{}
 
 func (m *sonyflakeMock) NextID() (uint64, error) {
 	args := m.Called()

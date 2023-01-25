@@ -8,12 +8,9 @@ import (
 	"git.ecobin.ir/ecomicro/x"
 )
 
-type SonyflakeInterface interface {
-	NextID() (uint64, error)
-}
 type usecase struct {
 	userRepo   domain.Repository
-	sf         SonyflakeInterface
+	sf         x.Sonyflake
 	fooAdapter domain.FooAdapter
 	bazAdapter domain.BazAdapter
 }
@@ -21,7 +18,7 @@ type usecase struct {
 var _ domain.Usecase = &usecase{}
 var _ domain.Adapter = &usecase{}
 
-func NewUserUsecase(userRepo domain.Repository, sf SonyflakeInterface) *usecase {
+func NewUserUsecase(userRepo domain.Repository, sf x.Sonyflake) *usecase {
 	return &usecase{
 		userRepo: userRepo,
 		sf:       sf,

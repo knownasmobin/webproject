@@ -7,20 +7,20 @@ import (
 	"git.ecobin.ir/ecomicro/tooty"
 )
 
-type bazUsecase struct {
+type usecase struct {
 	bazRepo domain.Repository
 }
 
-var _ domain.Usecase = &bazUsecase{}
+var _ domain.Usecase = &usecase{}
 
-func NewBazUsecase(bazRepo domain.Repository) *bazUsecase {
-	return &bazUsecase{
+func NewBazUsecase(bazRepo domain.Repository) *usecase {
+	return &usecase{
 		bazRepo: bazRepo,
 	}
 }
-func (uu *bazUsecase) SetAdapters() {}
+func (uu *usecase) SetAdapters() {}
 
-func (uu *bazUsecase) Create(
+func (uu *usecase) Create(
 	ctx context.Context,
 	baz domain.Baz,
 ) (*domain.Baz, error) {

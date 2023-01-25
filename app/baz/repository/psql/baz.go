@@ -10,20 +10,20 @@ import (
 	"gorm.io/gorm/clause"
 )
 
-type bazRepository struct {
+type repository struct {
 	Conn *gorm.DB
 }
 
-var _ domain.Repository = &bazRepository{}
+var _ domain.Repository = &repository{}
 
-func NewBazRepository(dbConnection *gorm.DB) *bazRepository {
+func NewRepository(dbConnection *gorm.DB) *repository {
 	err := dbConnection.AutoMigrate(&Baz{})
 	if err != nil {
 		panic(err)
 	}
-	return &bazRepository{dbConnection}
+	return &repository{dbConnection}
 }
-func (ur *bazRepository) Create(ctx context.Context, domainBaz domain.Baz) (*domain.Baz, error) {
+func (ur *repository) Create(ctx context.Context, domainBaz domain.Baz) (*domain.Baz, error) {
 	span := tooty.OpenAnAPMSpan(ctx, "[R] create baz", "repository")
 	defer tooty.CloseTheAPMSpan(span)
 
@@ -35,19 +35,19 @@ func (ur *bazRepository) Create(ctx context.Context, domainBaz domain.Baz) (*dom
 	baz := bazDao.ToDomainBaz()
 	return &baz, nil
 }
-func (ur *bazRepository) Get(ctx context.Context, userId uint64) (*domain.Baz, error) {
+func (ur *repository) Get(ctx context.Context, userId uint64) (*domain.Baz, error) {
 	span := tooty.OpenAnAPMSpan(ctx, "[R] get baz", "repository")
 	defer tooty.CloseTheAPMSpan(span)
 
 	var bazDao Baz
-	err := ur.Conn.WithContext(ctx).Debug().Where(Baz{UserId: userId}).Find(&bazDao).Error
+	err := ur.Conn.WithContext(ctx).Debug().Where(Baz{UserId: userId}).First(&bazDao).Error
 	if err != nil {
 		return nil, err
 	}
 	baz := bazDao.ToDomainBaz()
 	return &baz, nil
 }
-func (ur *bazRepository) Update(ctx context.Context, condition, domainBaz domain.Baz) ([]domain.Baz, error) {
+func (ur *repository) Update(ctx context.Context, condition, domainBaz domain.Baz) ([]domain.Baz, error) {
 	span := tooty.OpenAnAPMSpan(ctx, "[R] update baz", "repository")
 	defer tooty.CloseTheAPMSpan(span)
 

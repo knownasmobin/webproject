@@ -14,6 +14,9 @@ compose:
 compose-dev:
 	docker compose -f docker-compose-dev.yml up -d
 
+compose-test:
+	docker compose -f docker-compose-test.yml up -d
+
 run-foo:
 	go run ./extra/foo-main.go
 
@@ -32,6 +35,7 @@ docker:
 docker-push:
 	docker push ${DOCKER_IMAGE_NAME}:$(VERSION)
 
-test:
+test: compose-test 
+	sleep 1
 	go test ./...
 

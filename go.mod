@@ -15,6 +15,8 @@ require (
 	gorm.io/gorm v1.24.3
 )
 
+require github.com/mattn/go-sqlite3 v1.14.15 // indirect
+
 require (
 	git.ecobin.ir/ecomicro/protobuf/foo/grpc v0.0.0-20230115094306-00ad836d8d30 // indirect
 	git.ecobin.ir/ecomicro/protobuf/template/grpc v0.0.0-20230114081721-d5d9d879a87d // indirect
@@ -65,7 +67,7 @@ require (
 	github.com/jackc/pgx/v4 v4.16.1 // indirect
 	github.com/jcchavezs/porto v0.4.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
-	github.com/jinzhu/now v1.1.4 // indirect
+	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/joeshaw/multierror v0.0.0-20140124173710-69b34d4ec901 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
@@ -121,5 +123,6 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gorm.io/driver/postgres v1.3.8 // indirect
+	gorm.io/driver/sqlite v1.4.4
 	howett.net/plist v1.0.0 // indirect
 )

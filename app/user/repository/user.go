@@ -16,7 +16,7 @@ type userRepository struct {
 
 var _ domain.Repository = &userRepository{}
 
-func NewUserRepository(dbConnection *gorm.DB) *userRepository {
+func NewRepository(dbConnection *gorm.DB) *userRepository {
 	err := dbConnection.AutoMigrate(&User{})
 	if err != nil {
 		panic(err)
@@ -39,7 +39,7 @@ func (ur *userRepository) GetUserById(ctx context.Context, id uint64) (*domain.U
 	span := tooty.OpenAnAPMSpan(ctx, "[R] get user by id", "repository")
 	defer tooty.CloseTheAPMSpan(span)
 	var userDao User
-	err := ur.Conn.WithContext(ctx).Debug().Where(User{Id: id}).Find(&userDao).Error
+	err := ur.Conn.WithContext(ctx).Debug().Where(User{Id: id}).First(&userDao).Error
 	if err != nil {
 		return nil, err
 	}

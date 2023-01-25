@@ -28,7 +28,7 @@ func (b *bazBoot) ApplyRepository(boot structure.Boot) {
 	if _, ok := boot.Repositories[domain.DomainName]; ok {
 		log.Fatalf("baz repository already exist in repository map.")
 	}
-	psqlRepository := bazRepo.NewBazRepository(b.db)
+	psqlRepository := bazRepo.NewRepository(b.db)
 	// create redis cache layer
 	redisCacheRepository := redisRepo.New(psqlRepository, b.rdb)
 	boot.Repositories[domain.DomainName] = redisCacheRepository

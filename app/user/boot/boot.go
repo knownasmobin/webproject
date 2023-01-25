@@ -32,7 +32,7 @@ func (b *userBoot) ApplyRepository(boot structure.Boot) {
 	if _, ok := boot.Repositories[domain.DomainName]; ok {
 		log.Fatalf("user repository already exist in repository map.")
 	}
-	boot.Repositories[domain.DomainName] = userRepo.NewUserRepository(b.db)
+	boot.Repositories[domain.DomainName] = userRepo.NewRepository(b.db)
 }
 
 func (b *userBoot) ApplyUsecase(boot structure.Boot) {

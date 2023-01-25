@@ -23,7 +23,7 @@ func main() {
 	var err error
 	grpcServer, err := transport.NewGRPCServer(transport.GRPCConfig{
 		IP:   "0.0.0.0",
-		Port: 50001,
+		Port: 50002,
 	}, "debug", func(g *grpc.Server) {
 		pb.RegisterFooServer(g, &server{})
 	})

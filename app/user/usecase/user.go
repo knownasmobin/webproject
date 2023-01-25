@@ -6,30 +6,32 @@ import (
 	"git.ecobin.ir/ecomicro/template/app/user/domain"
 	"git.ecobin.ir/ecomicro/tooty"
 	"git.ecobin.ir/ecomicro/x"
-	"github.com/sony/sonyflake"
 )
 
-type userUsecase struct {
+type SonyflakeInterface interface {
+	NextID() (uint64, error)
+}
+type usecase struct {
 	userRepo   domain.Repository
-	sf         *sonyflake.Sonyflake
+	sf         SonyflakeInterface
 	fooAdapter domain.FooAdapter
 	bazAdapter domain.BazAdapter
 }
 
-var _ domain.Usecase = &userUsecase{}
-var _ domain.Adapter = &userUsecase{}
+var _ domain.Usecase = &usecase{}
+var _ domain.Adapter = &usecase{}
 
-func NewUserUsecase(userRepo domain.Repository, sf *sonyflake.Sonyflake) *userUsecase {
-	return &userUsecase{
+func NewUserUsecase(userRepo domain.Repository, sf SonyflakeInterface) *usecase {
+	return &usecase{
 		userRepo: userRepo,
 		sf:       sf,
 	}
 }
-func (uu *userUsecase) SetAdapters(fooAdapter domain.FooAdapter, bazAdapter domain.BazAdapter) {
+func (uu *usecase) SetAdapters(fooAdapter domain.FooAdapter, bazAdapter domain.BazAdapter) {
 	uu.fooAdapter = fooAdapter
 	uu.bazAdapter = bazAdapter
 }
-func (uu *userUsecase) Create(
+func (uu *usecase) Create(
 	ctx context.Context,
 	user domain.User,
 ) (*domain.User, error) {
@@ -57,7 +59,7 @@ func (uu *userUsecase) Create(
 	return dbUser, nil
 }
 
-func (uu *userUsecase) Update(ctx context.Context, user domain.User) (*domain.User, error) {
+func (uu *usecase) Update(ctx context.Context, user domain.User) (*domain.User, error) {
 	span := tooty.OpenAnAPMSpan(ctx, "[U] update user", "usecase")
 	defer tooty.CloseTheAPMSpan(span)
 	userArray, err := uu.userRepo.Update(ctx, domain.User{
@@ -71,7 +73,7 @@ func (uu *userUsecase) Update(ctx context.Context, user domain.User) (*domain.Us
 	}
 	return &userArray[0], nil
 }
-func (uu *userUsecase) GetUserById(ctx context.Context, id uint64) (*domain.User, error) {
+func (uu *usecase) GetUserById(ctx context.Context, id uint64) (*domain.User, error) {
 	span := tooty.OpenAnAPMSpan(ctx, "[U] get user by id", "usecase")
 	defer tooty.CloseTheAPMSpan(span)
 	user, err := uu.userRepo.GetUserById(ctx, id)

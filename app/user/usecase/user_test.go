@@ -157,7 +157,7 @@ func Test_usecase_Create(t *testing.T) {
 		name    string
 		arrange func(t *testing.T)
 		args    args
-		want    assertionArgs
+		want    func() assertionArgs
 		assert  func(t *testing.T, user *domain.User, got error, want assertionArgs)
 	}{
 		{
@@ -197,10 +197,11 @@ func Test_usecase_Create(t *testing.T) {
 					Deny:  []string{"deny1", "deny2"},
 				},
 			},
-			want: assertionArgs{
-				errorAssertion: errorAssertion{
-					hasErr: true,
-				},
+			want: func() assertionArgs {
+				return assertionArgs{
+					errorAssertion: errorAssertion{
+						hasErr: true,
+					}}
 			},
 			assert: func(t *testing.T, user *domain.User, err error, want assertionArgs) {
 				assertErr(t, err, want.errorAssertion)
@@ -233,16 +234,18 @@ func Test_usecase_Create(t *testing.T) {
 					Deny:  []string{"deny1", "deny2"},
 				},
 			},
-			want: assertionArgs{
-				errorAssertion: errorAssertion{
-					hasErr: false,
-				},
-				user: domain.User{
-					Id:    userId,
-					Roles: []string{"role1", "role2"},
-					Allow: []string{"allow1", "allow2"},
-					Deny:  []string{"deny1", "deny2"},
-				},
+			want: func() assertionArgs {
+				return assertionArgs{
+					errorAssertion: errorAssertion{
+						hasErr: false,
+					},
+					user: domain.User{
+						Id:    userId,
+						Roles: []string{"role1", "role2"},
+						Allow: []string{"allow1", "allow2"},
+						Deny:  []string{"deny1", "deny2"},
+					},
+				}
 			},
 			assert: func(t *testing.T, user *domain.User, err error, want assertionArgs) {
 				assertErr(t, err, want.errorAssertion)
@@ -260,7 +263,7 @@ func Test_usecase_Create(t *testing.T) {
 			dbUser, err := u.Create(tt.args.ctx, tt.args.user)
 			// Assert
 			if tt.assert != nil {
-				tt.assert(t, dbUser, err, tt.want)
+				tt.assert(t, dbUser, err, tt.want())
 			}
 
 		})
@@ -285,7 +288,7 @@ func Test_usecase_Update(t *testing.T) {
 		name    string
 		arrange func(t *testing.T)
 		args    args
-		want    assertionArgs
+		want    func() assertionArgs
 		assert  func(t *testing.T, user *domain.User, got error, want assertionArgs)
 	}{
 		{
@@ -303,11 +306,12 @@ func Test_usecase_Update(t *testing.T) {
 					Deny:  []string{"deny1", "deny2"},
 				},
 			},
-			want: assertionArgs{
-				errorAssertion: errorAssertion{
-					hasErr:  true,
-					errType: domain.ErrNotFound,
-				},
+			want: func() assertionArgs {
+				return assertionArgs{
+					errorAssertion: errorAssertion{
+						hasErr:  true,
+						errType: domain.ErrNotFound,
+					}}
 			},
 			assert: func(t *testing.T, user *domain.User, err error, want assertionArgs) {
 				assertErr(t, err, want.errorAssertion)
@@ -338,16 +342,17 @@ func Test_usecase_Update(t *testing.T) {
 					Deny:  []string{"deny1", "deny2"},
 				},
 			},
-			want: assertionArgs{
-				errorAssertion: errorAssertion{
-					hasErr: false,
-				},
-				user: domain.User{
-					Id:    userId,
-					Roles: []string{"role1", "role2"},
-					Allow: []string{"allow1", "allow2"},
-					Deny:  []string{"deny1", "deny2"},
-				},
+			want: func() assertionArgs {
+				return assertionArgs{
+					errorAssertion: errorAssertion{
+						hasErr: false,
+					},
+					user: domain.User{
+						Id:    userId,
+						Roles: []string{"role1", "role2"},
+						Allow: []string{"allow1", "allow2"},
+						Deny:  []string{"deny1", "deny2"},
+					}}
 			},
 			assert: func(t *testing.T, user *domain.User, err error, want assertionArgs) {
 				assertErr(t, err, want.errorAssertion)
@@ -365,7 +370,7 @@ func Test_usecase_Update(t *testing.T) {
 			dbUser, err := u.Update(tt.args.ctx, tt.args.user)
 			// Assert
 			if tt.assert != nil {
-				tt.assert(t, dbUser, err, tt.want)
+				tt.assert(t, dbUser, err, tt.want())
 			}
 
 		})
@@ -390,7 +395,7 @@ func Test_usecase_GetUserById(t *testing.T) {
 		name    string
 		arrange func(t *testing.T)
 		args    args
-		want    assertionArgs
+		want    func() assertionArgs
 		assert  func(t *testing.T, user *domain.User, got error, want assertionArgs)
 	}{
 		{
@@ -403,10 +408,11 @@ func Test_usecase_GetUserById(t *testing.T) {
 				ctx: ctx,
 				id:  userId,
 			},
-			want: assertionArgs{
-				errorAssertion: errorAssertion{
-					hasErr: true,
-				},
+			want: func() assertionArgs {
+				return assertionArgs{
+					errorAssertion: errorAssertion{
+						hasErr: true,
+					}}
 			},
 			assert: func(t *testing.T, user *domain.User, err error, want assertionArgs) {
 				assertErr(t, err, want.errorAssertion)
@@ -432,16 +438,17 @@ func Test_usecase_GetUserById(t *testing.T) {
 				ctx: ctx,
 				id:  userId,
 			},
-			want: assertionArgs{
-				errorAssertion: errorAssertion{
-					hasErr: false,
-				},
-				user: domain.User{
-					Id:    userId,
-					Roles: []string{"role1", "role2"},
-					Allow: []string{"allow1", "allow2"},
-					Deny:  []string{"deny1", "deny2"},
-				},
+			want: func() assertionArgs {
+				return assertionArgs{
+					errorAssertion: errorAssertion{
+						hasErr: false,
+					},
+					user: domain.User{
+						Id:    userId,
+						Roles: []string{"role1", "role2"},
+						Allow: []string{"allow1", "allow2"},
+						Deny:  []string{"deny1", "deny2"},
+					}}
 			},
 			assert: func(t *testing.T, user *domain.User, err error, want assertionArgs) {
 				assertErr(t, err, want.errorAssertion)
@@ -460,7 +467,7 @@ func Test_usecase_GetUserById(t *testing.T) {
 			log.Println("---------------------,", tt.name, dbUser, err)
 			// Assert
 			if tt.assert != nil {
-				tt.assert(t, dbUser, err, tt.want)
+				tt.assert(t, dbUser, err, tt.want())
 			}
 
 		})

@@ -116,7 +116,7 @@ func Test_usecase_Create(t *testing.T) {
 		name    string
 		arrange func(t *testing.T)
 		args    args
-		want    assertionArgs
+		want    func() assertionArgs
 		assert  func(t *testing.T, Baz *domain.Baz, got error, want assertionArgs)
 	}{
 		{
@@ -138,10 +138,11 @@ func Test_usecase_Create(t *testing.T) {
 					UserId: userId,
 				},
 			},
-			want: assertionArgs{
-				errorAssertion: errorAssertion{
-					hasErr: true,
-				},
+			want: func() assertionArgs {
+				return assertionArgs{
+					errorAssertion: errorAssertion{
+						hasErr: true,
+					}}
 			},
 			assert: func(t *testing.T, Baz *domain.Baz, err error, want assertionArgs) {
 				assertErr(t, err, want.errorAssertion)
@@ -160,13 +161,14 @@ func Test_usecase_Create(t *testing.T) {
 					UserId: userId,
 				},
 			},
-			want: assertionArgs{
-				errorAssertion: errorAssertion{
-					hasErr: false,
-				},
-				Baz: domain.Baz{
-					UserId: userId,
-				},
+			want: func() assertionArgs {
+				return assertionArgs{
+					errorAssertion: errorAssertion{
+						hasErr: false,
+					},
+					Baz: domain.Baz{
+						UserId: userId,
+					}}
 			},
 			assert: func(t *testing.T, Baz *domain.Baz, err error, want assertionArgs) {
 				assertErr(t, err, want.errorAssertion)
@@ -192,10 +194,11 @@ func Test_usecase_Create(t *testing.T) {
 					UserId: userId,
 				},
 			},
-			want: assertionArgs{
-				errorAssertion: errorAssertion{
-					hasErr: true,
-				},
+			want: func() assertionArgs {
+				return assertionArgs{
+					errorAssertion: errorAssertion{
+						hasErr: true,
+					}}
 			},
 			assert: func(t *testing.T, Baz *domain.Baz, err error, want assertionArgs) {
 				assertErr(t, err, want.errorAssertion)
@@ -214,13 +217,14 @@ func Test_usecase_Create(t *testing.T) {
 					UserId: userId,
 				},
 			},
-			want: assertionArgs{
-				errorAssertion: errorAssertion{
-					hasErr: false,
-				},
-				Baz: domain.Baz{
-					UserId: userId,
-				},
+			want: func() assertionArgs {
+				return assertionArgs{
+					errorAssertion: errorAssertion{
+						hasErr: false,
+					},
+					Baz: domain.Baz{
+						UserId: userId,
+					}}
 			},
 			assert: func(t *testing.T, Baz *domain.Baz, err error, want assertionArgs) {
 				assertErr(t, err, want.errorAssertion)
@@ -238,7 +242,7 @@ func Test_usecase_Create(t *testing.T) {
 			dbBaz, err := u.Create(tt.args.ctx, tt.args.Baz)
 			// Assert
 			if tt.assert != nil {
-				tt.assert(t, dbBaz, err, tt.want)
+				tt.assert(t, dbBaz, err, tt.want())
 			}
 
 		})

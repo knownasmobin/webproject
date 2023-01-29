@@ -33,6 +33,7 @@ func main() {
 		log.Fatal(err, "Failed to create new service!")
 	}
 	boot.Boot(myService)
+	conf.Apply(c)
 
 	myService.Done()
 }

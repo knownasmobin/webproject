@@ -10,22 +10,18 @@ import (
 
 type usecase struct {
 	userRepo   domain.Repository
-	sf         x.Sonyflake
-	fooAdapter domain.FooAdapter
 	bazAdapter domain.BazAdapter
 }
 
 var _ domain.Usecase = &usecase{}
 var _ domain.Adapter = &usecase{}
 
-func NewUserUsecase(userRepo domain.Repository, sf x.Sonyflake) *usecase {
+func NewUserUsecase(userRepo domain.Repository) *usecase {
 	return &usecase{
 		userRepo: userRepo,
-		sf:       sf,
 	}
 }
-func (uu *usecase) SetAdapters(fooAdapter domain.FooAdapter, bazAdapter domain.BazAdapter) {
-	uu.fooAdapter = fooAdapter
+func (uu *usecase) SetAdapters(bazAdapter domain.BazAdapter) {
 	uu.bazAdapter = bazAdapter
 }
 func (uu *usecase) Create(
@@ -36,18 +32,9 @@ func (uu *usecase) Create(
 	span := tooty.OpenAnAPMSpan(ctx, "[U] create new user", "usecase")
 	defer tooty.CloseTheAPMSpan(span)
 
-	id, err := uu.sf.NextID()
-	if err != nil {
-		return nil, err
-	}
-	user.Id = id
 	dbUser, err := uu.userRepo.Create(ctx, user)
 	if err != nil {
 		return nil, err
-	}
-	err = uu.fooAdapter.Bar(ctx, *dbUser)
-	if err != nil {
-		x.LogError(err, ctx)
 	}
 	err = uu.bazAdapter.Create(ctx, *dbUser)
 	if err != nil {

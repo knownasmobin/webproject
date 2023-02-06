@@ -29,7 +29,7 @@ type Repository interface {
 }
 
 type Adapter interface {
-	SetAdapters(fooAdapter FooAdapter, bazAdapter BazAdapter)
+	SetAdapters(bazAdapter BazAdapter)
 }
 type BazAdapter interface {
 	Create(ctx context.Context, user User) error

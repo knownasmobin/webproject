@@ -3,34 +3,48 @@ package http
 import "git.ecobin.ir/ecomicro/template/app/user/domain"
 
 type CreateUserBody struct {
-	Roles []string `json:"roles"`
-	Allow []string `json:"allow"`
-	Deny  []string `json:"deny"`
+	Name     string
+	Username string
+	Password string
+	IsAdmin  bool
+}
+type LoginBody struct {
+	Username string
+	Password string
 }
 type UpdateUserBody struct {
-	Id    uint64   `json:"id"`
-	Roles []string `json:"roles"`
-	Allow []string `json:"allow"`
-	Deny  []string `json:"deny"`
+	Id       int
+	Name     string
+	Username string
+	Password string
+	IsAdmin  bool
 }
 
 func (c UpdateUserBody) toDomain() domain.User {
 	return domain.User{
-		Id:    c.Id,
-		Roles: c.Roles,
-		Allow: c.Allow,
-		Deny:  c.Deny,
+		Id:       c.Id,
+		Name:     c.Name,
+		Username: c.Username,
+		Password: c.Password,
+		IsAdmin:  c.IsAdmin,
+	}
+}
+func (c LoginBody) toDomain() domain.User {
+	return domain.User{
+		Username: c.Username,
+		Password: c.Password,
 	}
 }
 
 func (c CreateUserBody) toDomain() domain.User {
 	return domain.User{
-		Roles: c.Roles,
-		Allow: c.Allow,
-		Deny:  c.Deny,
+		Name:     c.Name,
+		Username: c.Username,
+		Password: c.Password,
+		IsAdmin:  c.IsAdmin,
 	}
 }
 
 type UserIdUri struct {
-	Id uint64 `uri:"id"`
+	Id int `uri:"id"`
 }

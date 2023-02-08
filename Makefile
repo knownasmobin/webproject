@@ -25,7 +25,6 @@ run: build
 	./${BINARY}
 
 watch: compose-dev 
-	/bin/sh -c 'go run ./extra/foo-main.go &'
 	sleep 1
 	air
 

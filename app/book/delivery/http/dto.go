@@ -1,12 +1,15 @@
 package http
 
-import "git.ecobin.ir/ecomicro/template/app/book/domain"
+import (
+	"git.ecobin.ir/ecomicro/template/app/book/domain"
+)
 
 type CreateBookBody struct {
 	Title       string
 	Price       float32
 	Author      string
 	Description string
+	Image       string
 	Categories  []int
 }
 type UpdateBookBody struct {
@@ -15,6 +18,7 @@ type UpdateBookBody struct {
 	Price       float32
 	Author      string
 	Description string
+	Image       string
 	Categories  []int
 }
 
@@ -26,6 +30,7 @@ func (c UpdateBookBody) toDomain() domain.Book {
 		Author:      c.Author,
 		Categories:  c.Categories,
 		Description: c.Description,
+		Image:       c.Image,
 	}
 }
 
@@ -36,6 +41,7 @@ func (c CreateBookBody) toDomain() domain.Book {
 		Author:      c.Author,
 		Categories:  c.Categories,
 		Description: c.Description,
+		Image:       c.Image,
 	}
 }
 

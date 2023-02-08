@@ -14,6 +14,7 @@ type Book struct {
 	Price       float32
 	Author      string
 	Description string
+	Image       string
 	Categories  []int
 	CreatedDate time.Time
 	UpdatedDate time.Time

@@ -17,6 +17,7 @@ type Book struct {
 	Price       float32
 	Author      string
 	Description string
+	Image       string
 	Categories  JSON `gorm:"type:jsonb"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time

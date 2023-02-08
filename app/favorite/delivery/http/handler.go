@@ -112,7 +112,7 @@ func (uh *favoriteHandler) createFavorite(ctx *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param Authorization header string true "Bearer jwtToken"
-// @Param id int true " favorite id"
+// @Param id path int true "favorite id"
 // @Success 200 {object} domain.Favorite
 // @Router /favorite/{id} [delete]
 func (uh *favoriteHandler) deleteFavorite(ctx *gin.Context) {

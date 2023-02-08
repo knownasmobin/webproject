@@ -4,17 +4,17 @@ import (
 	"net/http"
 	"strconv"
 
-	"git.ecobin.ir/ecomicro/template/domain"
+	"git.ecobin.ir/ecomicro/template/app/user/domain"
 	"git.ecobin.ir/ecomicro/x"
 
 	"github.com/gin-gonic/gin"
 )
 
 type userHandler struct {
-	Usecase domain.UserUsecase
+	Usecase domain.Usecase
 }
 
-func NewUserHandler(g *gin.Engine, authMiddleware gin.HandlerFunc, uu domain.UserUsecase) {
+func NewUserHandler(g *gin.Engine, uu domain.Usecase) {
 	rg := g.Group("/user")
 	handler := &userHandler{
 		Usecase: uu,
@@ -22,12 +22,19 @@ func NewUserHandler(g *gin.Engine, authMiddleware gin.HandlerFunc, uu domain.Use
 	rg.GET("/",
 		//  authMiddleware,
 		handler.getUser)
+	rg.PUT("/byCondition",
+		//  authMiddleware,
+		handler.getByCondition)
 	rg.GET("/:id",
 		//  authMiddleware,
 		handler.getUserById)
+
 	rg.POST("",
 		//  authMiddleware,
 		handler.createUser)
+	rg.POST("/login",
+		//  authMiddleware,
+		handler.login)
 	rg.PUT("",
 		//  authMiddleware,
 		handler.updateUser)
@@ -44,14 +51,14 @@ func NewUserHandler(g *gin.Engine, authMiddleware gin.HandlerFunc, uu domain.Use
 // @Success 200 {object} domain.User
 // @Router /user [get]
 func (uh *userHandler) getUser(ctx *gin.Context) {
-	userId, err := strconv.ParseUint(ctx.GetString("userId"), 10, 64)
+	userId, err := strconv.Atoi(ctx.GetString("userId"))
 	if err != nil {
-		x.ErrHandler(ctx, err, errMap)
+		x.HttpErrHandler(ctx, err, errMap)
 		return
 	}
 	user, err := uh.Usecase.GetUserById(ctx, userId)
 	if err != nil {
-		x.ErrHandler(ctx, err, errMap)
+		x.HttpErrHandler(ctx, err, errMap)
 		return
 	}
 	ctx.JSON(http.StatusOK, user)
@@ -65,7 +72,7 @@ func (uh *userHandler) getUser(ctx *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param Authorization header string true "Bearer jwtToken"
-// @Param id path uint64 true "user id"
+// @Param id path int true "user id"
 // @Success 200 {object} domain.User
 // @Router /user/{id} [get]
 func (uh *userHandler) getUserById(ctx *gin.Context) {
@@ -73,13 +80,13 @@ func (uh *userHandler) getUserById(ctx *gin.Context) {
 	var uri UserIdUri
 	err := ctx.BindUri(&uri)
 	if err != nil {
-		x.ErrHandler(ctx, domain.ErrUnprocessableEntity, errMap)
+		x.HttpErrHandler(ctx, domain.ErrUnprocessableEntity, errMap)
 		return
 	}
 
 	user, err := uh.Usecase.GetUserById(ctx, uri.Id)
 	if err != nil {
-		x.ErrHandler(ctx, err, errMap)
+		x.HttpErrHandler(ctx, err, errMap)
 		return
 	}
 	ctx.JSON(http.StatusOK, user)
@@ -100,15 +107,43 @@ func (uh *userHandler) createUser(ctx *gin.Context) {
 	var body CreateUserBody
 	err := ctx.Bind(&body)
 	if err != nil {
-		x.ErrHandler(ctx, domain.ErrUnprocessableEntity, errMap)
+		x.HttpErrHandler(ctx, domain.ErrUnprocessableEntity, errMap)
 		return
 	}
 	user, err := uh.Usecase.Create(ctx, body.toDomain())
 	if err != nil {
-		x.ErrHandler(ctx, err, errMap)
+		x.HttpErrHandler(ctx, err, errMap)
 		return
 	}
 	ctx.JSON(http.StatusOK, user)
+}
+
+// login user godoc
+// @Summary login user
+// @Schemes
+// @Description  login user
+// @Tags user
+// @Accept json
+// @Produce json
+// @Param body body LoginBody true "body params"
+// @Success 200 {object} domain.User
+// @Router /user/login [post]
+func (uh *userHandler) login(ctx *gin.Context) {
+	var body LoginBody
+	err := ctx.Bind(&body)
+	if err != nil {
+		x.HttpErrHandler(ctx, domain.ErrUnprocessableEntity, errMap)
+		return
+	}
+	user, token, err := uh.Usecase.LoginUserCredential(ctx, body.toDomain())
+	if err != nil {
+		x.HttpErrHandler(ctx, err, errMap)
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{
+		"token": token,
+		"user":  user,
+	})
 }
 
 // update user godoc
@@ -126,12 +161,38 @@ func (uh *userHandler) updateUser(ctx *gin.Context) {
 	var body UpdateUserBody
 	err := ctx.Bind(&body)
 	if err != nil {
-		x.ErrHandler(ctx, domain.ErrUnprocessableEntity, errMap)
+		x.HttpErrHandler(ctx, domain.ErrUnprocessableEntity, errMap)
 		return
 	}
 	user, err := uh.Usecase.Update(ctx, body.toDomain())
 	if err != nil {
-		x.ErrHandler(ctx, err, errMap)
+		x.HttpErrHandler(ctx, err, errMap)
+		return
+	}
+	ctx.JSON(http.StatusOK, user)
+}
+
+// get by condition user godoc
+// @Summary get by condition user
+// @Schemes
+// @Description  get by condition user
+// @Tags user
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Bearer jwtToken"
+// @Param body body UpdateUserBody true "body params"
+// @Success 200 {array} domain.User
+// @Router /user/byCondition [put]
+func (uh *userHandler) getByCondition(ctx *gin.Context) {
+	var body UpdateUserBody
+	err := ctx.Bind(&body)
+	if err != nil {
+		x.HttpErrHandler(ctx, domain.ErrUnprocessableEntity, errMap)
+		return
+	}
+	user, err := uh.Usecase.GetByCondition(ctx, body.toDomain())
+	if err != nil {
+		x.HttpErrHandler(ctx, err, errMap)
 		return
 	}
 	ctx.JSON(http.StatusOK, user)

@@ -137,12 +137,11 @@ func (uh *commentHandler) createComment(ctx *gin.Context) {
 		return
 	}
 	comment, err := uh.Usecase.Create(ctx, body.toDomain())
-	print("commented")
-	log.Println(comment)
 	if err != nil {
 		x.HttpErrHandler(ctx, err, errMap)
 		return
 	}
+	log.Println("comment inja: ", comment)
 	ctx.JSON(http.StatusOK, comment)
 }
 

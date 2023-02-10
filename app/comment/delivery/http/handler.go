@@ -1,6 +1,7 @@
 package http
 
 import (
+	"log"
 	"net/http"
 
 	"git.ecobin.ir/ecomicro/template/app/comment/domain"
@@ -137,7 +138,7 @@ func (uh *commentHandler) createComment(ctx *gin.Context) {
 	}
 	comment, err := uh.Usecase.Create(ctx, body.toDomain())
 	print("commented")
-	println(comment)
+	log.Println(comment)
 	if err != nil {
 		x.HttpErrHandler(ctx, err, errMap)
 		return

@@ -27,9 +27,6 @@ func (uu *commentUsecase) Create(
 	comment domain.Comment,
 ) (*domain.Comment, error) {
 
-	span := tooty.OpenAnAPMSpan(ctx, "[U] create new comment", "usecase")
-	defer tooty.CloseTheAPMSpan(span)
-
 	dbComment, err := uu.commentRepo.Create(ctx, comment)
 	if err != nil {
 		return nil, err

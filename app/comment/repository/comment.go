@@ -25,9 +25,6 @@ func NewCommentRepository(dbConnection *gorm.DB) *commentRepository {
 }
 
 func (ur *commentRepository) Create(ctx context.Context, domainComment domain.Comment) (*domain.Comment, error) {
-	span := tooty.OpenAnAPMSpan(ctx, "[R] create comment", "repository")
-	defer tooty.CloseTheAPMSpan(span)
-
 	commentDao := FromDomainComment(domainComment)
 	result := ur.Conn.Debug().Create(&commentDao)
 	if result.Error != nil {

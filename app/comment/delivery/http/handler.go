@@ -136,6 +136,7 @@ func (uh *commentHandler) createComment(ctx *gin.Context) {
 		x.HttpErrHandler(ctx, domain.ErrUnprocessableEntity, errMap)
 		return
 	}
+	log.Println("hala inja ro ham bebin: ", ctx)
 	comment, err := uh.Usecase.Create(ctx, body.toDomain())
 	if err != nil {
 		x.HttpErrHandler(ctx, err, errMap)

@@ -3,3 +3,5 @@
 /tmp/
 .idea/
 template.json
+go.mod
+go.sum

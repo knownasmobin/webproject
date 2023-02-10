@@ -33,8 +33,6 @@ cloud.google.com/go/storage v1.10.0/go.mod h1:FLPqc6j+Ki4BU591ie1oL6qBQGu2Bl/tZ9
 dmitri.shuralyov.com/gpu/mtl v0.0.0-20190408044501-666a987793e9/go.mod h1:H6x//7gZCb22OMCxBHrMx7a5I7Hp++hsVxbQ4BYO7hU=
 git.ecobin.ir/ecomicro/bootstrap v0.0.0-20230206115217-a15d251835f0 h1:ktvPt1Obq8ahcMzd6QsjbhVfprL4Er0blwewkc+adsY=
 git.ecobin.ir/ecomicro/bootstrap v0.0.0-20230206115217-a15d251835f0/go.mod h1:p8ex9I9wgJcPYO4g326z8ghFF+kbjM7QrwNf0GgOXpU=
-git.ecobin.ir/ecomicro/protobuf/foo/grpc v0.0.0-20230115094306-00ad836d8d30 h1:4LsA59o2Y1y/WLc7YOYdb+k8GC0QrUNGun854/J6oJg=
-git.ecobin.ir/ecomicro/protobuf/foo/grpc v0.0.0-20230115094306-00ad836d8d30/go.mod h1:QeuiXbR+DE3+ruLy3KFREuHR+HrSkNh/ZFcCPFTJ5dQ=
 git.ecobin.ir/ecomicro/tooty v0.0.0-20230206114351-0a7806ebb13a h1:Ix/BPpW4yeol8I6Y8cY4uA07O0Z62u5JlHaM7AVk3h8=
 git.ecobin.ir/ecomicro/tooty v0.0.0-20230206114351-0a7806ebb13a/go.mod h1:d8338OTPoAW8REoOkZyDgQ8CIVy8VcKkPlm0JzY+AF8=
 git.ecobin.ir/ecomicro/transport v0.0.0-20230110125533-38979b490009 h1:rN3EymnWP5NSlM//7Qx5KZd8GYCgx9W9CP1SfhuvPos=

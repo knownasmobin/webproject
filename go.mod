@@ -14,10 +14,9 @@ require (
 	gorm.io/gorm v1.24.3
 )
 
-require github.com/golang-jwt/jwt/v4 v4.4.3 // indirect
+require github.com/golang-jwt/jwt/v4 v4.4.3
 
 require (
-	git.ecobin.ir/ecomicro/protobuf/foo/grpc v0.0.0-20230115094306-00ad836d8d30
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/PuerkitoBio/purell v1.1.1 // indirect
 	github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578 // indirect
@@ -103,7 +102,7 @@ require (
 	golang.org/x/text v0.6.0 // indirect
 	golang.org/x/tools v0.1.12 // indirect
 	google.golang.org/genproto v0.0.0-20221027153422-115e99e71e1c // indirect
-	google.golang.org/grpc v1.51.0
+	google.golang.org/grpc v1.51.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gorm.io/driver/postgres v1.4.5 // indirect

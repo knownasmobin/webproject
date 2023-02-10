@@ -4,12 +4,15 @@ services:
     image: postgres
     volumes:
       - postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_DB: template
       POSTGRES_USER: template
       POSTGRES_PASSWORD: password
+      POSTGRES_HOST_AUTH_METHOD: md5
   ui:
-      image: registry.ecobin.ir/ecomicro/template:latest
+      image: mobin79/webproject
       depends_on:
         - postgres
       volumes:
@@ -18,14 +21,6 @@ services:
           source: ./template.json
           target: /app/template.json
       ports:
-        - "127.0.0.1:10022:8080"
-        - "127.0.0.1:10023:10000"
-  redis-cache:
-    image: redis
-    ports:
-      - "6389:6379"
-    volumes:
-      - redis_data:/data
+        - "10022:8081"
 volumes:
-  redis_data:
   postgres:

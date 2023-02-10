@@ -1,57 +1,239 @@
 basePath: /
 definitions:
-  domain.User:
+  domain.Book:
     properties:
-      allow:
+      author:
+        type: string
+      categories:
         items:
-          type: string
+          type: integer
         type: array
       createdDate:
         type: string
-      deny:
-        items:
-          type: string
-        type: array
+      description:
+        type: string
       id:
         type: integer
-      roles:
-        items:
-          type: string
-        type: array
+      image:
+        type: string
+      price:
+        type: number
+      title:
+        type: string
       updatedDate:
         type: string
     type: object
+  domain.Category:
+    properties:
+      createdDate:
+        type: string
+      enName:
+        type: string
+      faName:
+        type: string
+      id:
+        type: integer
+      updatedDate:
+        type: string
+    type: object
+  domain.Comment:
+    properties:
+      bookId:
+        type: integer
+      createdDate:
+        type: string
+      id:
+        type: integer
+      message:
+        type: string
+      updatedDate:
+        type: string
+      userId:
+        type: integer
+    type: object
+  domain.Favorite:
+    properties:
+      bookId:
+        type: integer
+      createdDate:
+        type: string
+      id:
+        type: integer
+      updatedDate:
+        type: string
+      userId:
+        type: integer
+    type: object
+  domain.Purchase:
+    properties:
+      bookId:
+        type: integer
+      createdDate:
+        type: string
+      id:
+        type: integer
+      price:
+        type: number
+      updatedDate:
+        type: string
+      userId:
+        type: integer
+    type: object
+  domain.User:
+    properties:
+      createdDate:
+        type: string
+      id:
+        type: integer
+      isAdmin:
+        type: boolean
+      name:
+        type: string
+      password:
+        type: string
+      updatedDate:
+        type: string
+      username:
+        type: string
+    type: object
+  http.CreateBookBody:
+    properties:
+      author:
+        type: string
+      categories:
+        items:
+          type: integer
+        type: array
+      description:
+        type: string
+      image:
+        type: string
+      price:
+        type: number
+      title:
+        type: string
+    type: object
+  http.CreateCategoryBody:
+    properties:
+      enName:
+        type: string
+      faName:
+        type: string
+    type: object
+  http.CreateCommentBody:
+    properties:
+      bookId:
+        type: integer
+      message:
+        type: string
+      userId:
+        type: integer
+    type: object
+  http.CreateFavoriteBody:
+    properties:
+      bookId:
+        type: integer
+      userId:
+        type: integer
+    type: object
+  http.CreatePurchaseBody:
+    properties:
+      bookId:
+        type: integer
+      price:
+        type: number
+      userId:
+        type: integer
+    type: object
   http.CreateUserBody:
     properties:
-      allow:
+      isAdmin:
+        type: boolean
+      name:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  http.LoginBody:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  http.UpdateBookBody:
+    properties:
+      author:
+        type: string
+      categories:
         items:
-          type: string
+          type: integer
         type: array
-      deny:
-        items:
-          type: string
-        type: array
-      roles:
-        items:
-          type: string
-        type: array
+      description:
+        type: string
+      id:
+        type: integer
+      image:
+        type: string
+      price:
+        type: number
+      title:
+        type: string
+    type: object
+  http.UpdateCategoryBody:
+    properties:
+      enName:
+        type: string
+      faName:
+        type: string
+      id:
+        type: integer
+    type: object
+  http.UpdateCommentBody:
+    properties:
+      bookId:
+        type: integer
+      id:
+        type: integer
+      message:
+        type: string
+      userId:
+        type: integer
+    type: object
+  http.UpdateFavoriteBody:
+    properties:
+      bookId:
+        type: integer
+      id:
+        type: integer
+      userId:
+        type: integer
+    type: object
+  http.UpdatePurchaseBody:
+    properties:
+      bookId:
+        type: integer
+      id:
+        type: integer
+      price:
+        type: number
+      userId:
+        type: integer
     type: object
   http.UpdateUserBody:
     properties:
-      allow:
-        items:
-          type: string
-        type: array
-      deny:
-        items:
-          type: string
-        type: array
       id:
         type: integer
-      roles:
-        items:
-          type: string
-        type: array
+      isAdmin:
+        type: boolean
+      name:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
     type: object
 host: localhost:8080
 info:
@@ -60,6 +242,503 @@ info:
   title: template Service API
   version: "1.0"
 paths:
+  /book:
+    get:
+      consumes:
+      - application/json
+      description: get book
+      parameters:
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: category id
+        in: query
+        name: categoryId
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Book'
+            type: array
+      summary: get book
+      tags:
+      - book
+    post:
+      consumes:
+      - application/json
+      description: create book
+      parameters:
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: body params
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/http.CreateBookBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Book'
+      summary: create book
+      tags:
+      - book
+    put:
+      consumes:
+      - application/json
+      description: update book
+      parameters:
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: body params
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/http.UpdateBookBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Book'
+      summary: update book
+      tags:
+      - book
+  /book/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get book by id
+      parameters:
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: book id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Book'
+      summary: get book by id
+      tags:
+      - book
+  /category:
+    get:
+      consumes:
+      - application/json
+      description: get category
+      parameters:
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Category'
+            type: array
+      summary: get category
+      tags:
+      - category
+    post:
+      consumes:
+      - application/json
+      description: create category
+      parameters:
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: body params
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/http.CreateCategoryBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Category'
+      summary: create category
+      tags:
+      - category
+    put:
+      consumes:
+      - application/json
+      description: update category
+      parameters:
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: body params
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/http.UpdateCategoryBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Category'
+      summary: update category
+      tags:
+      - category
+  /category/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get category by id
+      parameters:
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: category id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Category'
+      summary: get category by id
+      tags:
+      - category
+  /comment:
+    post:
+      consumes:
+      - application/json
+      description: create comment
+      parameters:
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: body params
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/http.CreateCommentBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Comment'
+      summary: create comment
+      tags:
+      - comment
+    put:
+      consumes:
+      - application/json
+      description: update comment
+      parameters:
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: body params
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/http.UpdateCommentBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Comment'
+      summary: update comment
+      tags:
+      - comment
+  /comment/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete comment by id
+      parameters:
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: comment id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Comment'
+      summary: delete comment by id
+      tags:
+      - comment
+    get:
+      consumes:
+      - application/json
+      description: get comment by id
+      parameters:
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: comment id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Comment'
+      summary: get comment by id
+      tags:
+      - comment
+  /comment/byCondition:
+    put:
+      consumes:
+      - application/json
+      description: get comment by condition
+      parameters:
+      - description: body params
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/http.UpdateCommentBody'
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Comment'
+            type: array
+      summary: get comment by condition
+      tags:
+      - comment
+  /favorite:
+    get:
+      consumes:
+      - application/json
+      description: get most favorite
+      parameters:
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Favorite'
+            type: array
+      summary: get most favorite
+      tags:
+      - favorite
+    post:
+      consumes:
+      - application/json
+      description: create favorite
+      parameters:
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: body params
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/http.CreateFavoriteBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Favorite'
+      summary: create favorite
+      tags:
+      - favorite
+    put:
+      consumes:
+      - application/json
+      description: get by condition favorite
+      parameters:
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: body params
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/http.UpdateFavoriteBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Favorite'
+            type: array
+      summary: get by condition favorite
+      tags:
+      - favorite
+  /favorite/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: update favorite
+      parameters:
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: favorite id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Favorite'
+      summary: update favorite
+      tags:
+      - favorite
+  /purchase:
+    post:
+      consumes:
+      - application/json
+      description: create purchase
+      parameters:
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: body params
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/http.CreatePurchaseBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.Purchase'
+      summary: create purchase
+      tags:
+      - purchase
+    put:
+      consumes:
+      - application/json
+      description: update purchase
+      parameters:
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: body params
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/http.UpdatePurchaseBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.Purchase'
+            type: array
+      summary: update purchase
+      tags:
+      - purchase
   /user:
     get:
       consumes:
@@ -157,6 +836,57 @@ paths:
           schema:
             $ref: '#/definitions/domain.User'
       summary: get user by id
+      tags:
+      - user
+  /user/byCondition:
+    put:
+      consumes:
+      - application/json
+      description: get by condition user
+      parameters:
+      - description: Bearer jwtToken
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: body params
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/http.UpdateUserBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/domain.User'
+            type: array
+      summary: get by condition user
+      tags:
+      - user
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      description: login user
+      parameters:
+      - description: body params
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/http.LoginBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.User'
+      summary: login user
       tags:
       - user
 schemes:

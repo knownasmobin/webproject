@@ -51,13 +51,15 @@ func FromDomainBook(book domain.Book) Book {
 	var categories JSON
 	categories, _ = json.Marshal(book.Categories)
 	return Book{
-		Id:         book.Id,
-		Title:      book.Title,
-		Price:      book.Price,
-		Author:     book.Author,
-		Categories: categories,
-		CreatedAt:  book.CreatedDate,
-		UpdatedAt:  book.UpdatedDate,
+		Id:          book.Id,
+		Title:       book.Title,
+		Price:       book.Price,
+		Author:      book.Author,
+		Categories:  categories,
+		Image:       book.Image,
+		Description: book.Description,
+		CreatedAt:   book.CreatedDate,
+		UpdatedAt:   book.UpdatedDate,
 	}
 }
 
@@ -70,6 +72,8 @@ func (u *Book) ToDomainBook() domain.Book {
 		Price:       u.Price,
 		Author:      u.Author,
 		Categories:  categories,
+		Image:       u.Image,
+		Description: u.Description,
 		CreatedDate: u.CreatedAt,
 		UpdatedDate: u.UpdatedAt,
 	}

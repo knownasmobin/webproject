@@ -2,7 +2,7 @@ package repository
 
 import (
 	"context"
-
+	"strconv"
 	"git.ecobin.ir/ecomicro/template/app/book/domain"
 
 	"git.ecobin.ir/ecomicro/tooty"
@@ -40,9 +40,11 @@ func (ur *bookRepository) Create(ctx context.Context, domainBook domain.Book) (*
 func (ur *bookRepository) GetByCategory(ctx context.Context, categoryId *int) ([]domain.Book, error) {
 	var bookArray []Book
 	chain := ur.Conn.WithContext(ctx).Debug()
-	if categoryId != nil {
-		chain = chain.Where("categories->>'item' = ?", categoryId)
-	}
+	if strconv.Itoa(*categoryId) != "0" {
+		chain = chain.Where("categories->>'item' = ?", strconv.Itoa(*categoryId))
+	} else {
+                chain = chain.Find(&bookArray)
+        }
 	err := chain.Find(&bookArray).Error
 	if err != nil {
 		return nil, err

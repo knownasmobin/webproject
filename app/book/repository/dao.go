@@ -48,14 +48,26 @@ func (j JSON) Value() (driver.Value, error) {
 }
 
 func FromDomainBook(book domain.Book) Book {
-	var categories JSON
-	categories, _ = json.Marshal(book.Categories)
+	if book.Categories != nil {
+		var categories JSON
+		categories, _ = json.Marshal(book.Categories)
+		return Book{
+			Id:          book.Id,
+			Title:       book.Title,
+			Price:       book.Price,
+			Author:      book.Author,
+			Categories:  categories,
+			Image:       book.Image,
+			Description: book.Description,
+			CreatedAt:   book.CreatedDate,
+			UpdatedAt:   book.UpdatedDate,
+		}
+	}
 	return Book{
 		Id:          book.Id,
 		Title:       book.Title,
 		Price:       book.Price,
 		Author:      book.Author,
-		Categories:  categories,
 		Image:       book.Image,
 		Description: book.Description,
 		CreatedAt:   book.CreatedDate,

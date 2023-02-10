@@ -3,9 +3,9 @@ package repository
 import (
 	"context"
 	"strconv"
+
 	"git.ecobin.ir/ecomicro/template/app/book/domain"
 
-	"git.ecobin.ir/ecomicro/tooty"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
@@ -25,8 +25,6 @@ func NewBookRepository(dbConnection *gorm.DB) *bookRepository {
 }
 
 func (ur *bookRepository) Create(ctx context.Context, domainBook domain.Book) (*domain.Book, error) {
-	span := tooty.OpenAnAPMSpan(ctx, "[R] create book", "repository")
-	defer tooty.CloseTheAPMSpan(span)
 
 	bookDao := FromDomainBook(domainBook)
 	result := ur.Conn.Debug().Create(&bookDao)
@@ -43,8 +41,8 @@ func (ur *bookRepository) GetByCategory(ctx context.Context, categoryId *int) ([
 	if strconv.Itoa(*categoryId) != "0" {
 		chain = chain.Where("categories->>'item' = ?", strconv.Itoa(*categoryId))
 	} else {
-                chain = chain.Find(&bookArray)
-        }
+		chain = chain.Find(&bookArray)
+	}
 	err := chain.Find(&bookArray).Error
 	if err != nil {
 		return nil, err
@@ -56,8 +54,6 @@ func (ur *bookRepository) GetByCategory(ctx context.Context, categoryId *int) ([
 	return domainBooks, nil
 }
 func (ur *bookRepository) GetBookById(ctx context.Context, id int) (*domain.Book, error) {
-	span := tooty.OpenAnAPMSpan(ctx, "[R] get book by id", "repository")
-	defer tooty.CloseTheAPMSpan(span)
 	var bookDao Book
 	err := ur.Conn.WithContext(ctx).Debug().Where(Book{Id: id}).First(&bookDao).Error
 	if err != nil {
@@ -68,8 +64,6 @@ func (ur *bookRepository) GetBookById(ctx context.Context, id int) (*domain.Book
 }
 
 func (ur *bookRepository) Update(ctx context.Context, condition domain.Book, domainBook domain.Book) ([]domain.Book, error) {
-	span := tooty.OpenAnAPMSpan(ctx, "[R] update book", "repository")
-	defer tooty.CloseTheAPMSpan(span)
 	var bookArray []Book
 	err := ur.Conn.WithContext(ctx).Debug().Model(&bookArray).Clauses(clause.Returning{}).Where(FromDomainBook(condition)).Updates(FromDomainBook(domainBook)).Error
 	if err != nil {
@@ -80,4 +74,16 @@ func (ur *bookRepository) Update(ctx context.Context, condition domain.Book, dom
 		domainBooks[idx] = book.ToDomainBook()
 	}
 	return domainBooks, nil
+}
+func (ur *bookRepository) GetByCondition(ctx context.Context, condition domain.Book) ([]domain.Book, error) {
+	var bookArray []Book
+	err := ur.Conn.WithContext(ctx).Debug().Where(FromDomainBook(condition)).Find(&bookArray).Error
+	if err != nil {
+		return []domain.Book{}, err
+	}
+	domainBookss := make([]domain.Book, len(bookArray))
+	for idx, book := range bookArray {
+		domainBookss[idx] = book.ToDomainBook()
+	}
+	return domainBookss, nil
 }

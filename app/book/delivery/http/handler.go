@@ -21,6 +21,9 @@ func NewBookHandler(g *gin.Engine, uu domain.Usecase) {
 	rg.GET("/",
 		//	common.GetAuth().Guard(true),
 		handler.getAll)
+	rg.PUT("/byCondition",
+		//  authMiddleware,
+		handler.getByCondition)
 	rg.GET("/:id",
 		//	common.GetAuth().Guard(false),
 		handler.getBookById)
@@ -137,4 +140,30 @@ func (uh *bookHandler) updateBook(ctx *gin.Context) {
 		return
 	}
 	ctx.JSON(http.StatusOK, book)
+}
+
+// get by condition book godoc
+// @Summary get by condition book
+// @Schemes
+// @Description  get by condition book
+// @Tags book
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Bearer jwtToken"
+// @Param body body UpdatebookBody true "body params"
+// @Success 200 {array} domain.book
+// @Router /book/byCondition [put]
+func (uh *bookHandler) getByCondition(ctx *gin.Context) {
+	var body UpdateBookBody
+	err := ctx.Bind(&body)
+	if err != nil {
+		x.HttpErrHandler(ctx, domain.ErrUnprocessableEntity, errMap)
+		return
+	}
+	user, err := uh.Usecase.GetByCondition(ctx, body.toDomain())
+	if err != nil {
+		x.HttpErrHandler(ctx, err, errMap)
+		return
+	}
+	ctx.JSON(http.StatusOK, user)
 }

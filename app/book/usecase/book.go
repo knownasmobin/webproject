@@ -60,3 +60,10 @@ func (uu *bookUsecase) GetBookById(ctx context.Context, id int) (*domain.Book, e
 	}
 	return book, nil
 }
+func (uu *bookUsecase) GetByCondition(ctx context.Context, book domain.Book) ([]domain.Book, error) {
+	dbBook, err := uu.bookRepo.GetByCondition(ctx, book)
+	if err != nil {
+		return nil, err
+	}
+	return dbBook, nil
+}

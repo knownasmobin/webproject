@@ -69,8 +69,6 @@ func (ur *userRepository) GetUserByPassword(ctx context.Context, username, passw
 	return &user, nil
 }
 func (ur *userRepository) Update(ctx context.Context, condition domain.User, domainUser domain.User) ([]domain.User, error) {
-	span := tooty.OpenAnAPMSpan(ctx, "[R] update user", "repository")
-	defer tooty.CloseTheAPMSpan(span)
 	var userArray []User
 	err := ur.Conn.WithContext(ctx).Debug().Model(&userArray).Clauses(clause.Returning{}).Where(FromDomainUser(condition)).Updates(FromDomainUser(domainUser)).Error
 	if err != nil {

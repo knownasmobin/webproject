@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"git.ecobin.ir/ecomicro/template/app/book/domain"
-	"git.ecobin.ir/ecomicro/template/common"
 	"git.ecobin.ir/ecomicro/x"
 
 	"github.com/gin-gonic/gin"
@@ -20,10 +19,10 @@ func NewBookHandler(g *gin.Engine, uu domain.Usecase) {
 		Usecase: uu,
 	}
 	rg.GET("/",
-		common.GetAuth().Guard(true),
+		//	common.GetAuth().Guard(true),
 		handler.getAll)
 	rg.GET("/:id",
-		common.GetAuth().Guard(false),
+		//	common.GetAuth().Guard(false),
 		handler.getBookById)
 	rg.POST("",
 		//  authMiddleware,

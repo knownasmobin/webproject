@@ -52,8 +52,6 @@ func (uu *usecase) Update(ctx context.Context, user domain.User) (*domain.User, 
 	return &userArray[0], nil
 }
 func (uu *usecase) GetUserById(ctx context.Context, id int) (*domain.User, error) {
-	span := tooty.OpenAnAPMSpan(ctx, "[U] get user by id", "usecase")
-	defer tooty.CloseTheAPMSpan(span)
 	user, err := uu.userRepo.GetUserById(ctx, id)
 	if err != nil {
 		return nil, err

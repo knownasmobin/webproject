@@ -45,8 +45,6 @@ func (ur *userRepository) Create(ctx context.Context, domainUser domain.User) (*
 	return &user, nil
 }
 func (ur *userRepository) GetUserById(ctx context.Context, id int) (*domain.User, error) {
-	span := tooty.OpenAnAPMSpan(ctx, "[R] get user by id", "repository")
-	defer tooty.CloseTheAPMSpan(span)
 	var userDao User
 	err := ur.Conn.WithContext(ctx).Debug().Where(User{Id: id}).First(&userDao).Error
 	if err != nil {

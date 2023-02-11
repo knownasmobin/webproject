@@ -25,9 +25,6 @@ func NewCategoryRepository(dbConnection *gorm.DB) *categoryRepository {
 }
 
 func (ur *categoryRepository) Create(ctx context.Context, domainCategory domain.Category) (*domain.Category, error) {
-	span := tooty.OpenAnAPMSpan(ctx, "[R] create category", "repository")
-	defer tooty.CloseTheAPMSpan(span)
-
 	categoryDao := FromDomainCategory(domainCategory)
 	result := ur.Conn.Debug().Create(&categoryDao)
 	if result.Error != nil {
@@ -61,8 +58,6 @@ func (ur *categoryRepository) GetAll(ctx context.Context) ([]domain.Category, er
 	return domainCategorys, nil
 }
 func (ur *categoryRepository) Update(ctx context.Context, condition domain.Category, domainCategory domain.Category) ([]domain.Category, error) {
-	span := tooty.OpenAnAPMSpan(ctx, "[R] update category", "repository")
-	defer tooty.CloseTheAPMSpan(span)
 	var categoryArray []Category
 	err := ur.Conn.WithContext(ctx).Debug().Model(&categoryArray).Clauses(clause.Returning{}).Where(FromDomainCategory(condition)).Updates(FromDomainCategory(domainCategory)).Error
 	if err != nil {

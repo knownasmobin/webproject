@@ -24,9 +24,6 @@ func NewPurchaseRepository(dbConnection *gorm.DB) *purchaseRepository {
 }
 
 func (ur *purchaseRepository) Create(ctx context.Context, domainPurchase domain.Purchase) (*domain.Purchase, error) {
-	span := tooty.OpenAnAPMSpan(ctx, "[R] create purchase", "repository")
-	defer tooty.CloseTheAPMSpan(span)
-
 	purchaseDao := FromDomainPurchase(domainPurchase)
 	result := ur.Conn.Debug().Create(&purchaseDao)
 	if result.Error != nil {

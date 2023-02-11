@@ -27,9 +27,6 @@ func (uu *purchaseUsecase) Create(
 	purchase domain.Purchase,
 ) (*domain.Purchase, error) {
 
-	span := tooty.OpenAnAPMSpan(ctx, "[U] create new purchase", "usecase")
-	defer tooty.CloseTheAPMSpan(span)
-
 	dbPurchase, err := uu.purchaseRepo.Create(ctx, purchase)
 	if err != nil {
 		return nil, err

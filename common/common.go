@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"git.ecobin.ir/ecomicro/template/app/user/domain"
-	"git.ecobin.ir/ecomicro/tooty"
 	"github.com/gin-gonic/gin"
 )
 
@@ -30,8 +29,6 @@ func GetAuth() *Auth {
 }
 func (a *Auth) Guard(justAdmin bool) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		span := tooty.OpenAnAPMSpan(ctx.Request.Context(), "[M] Auth", "middleware")
-		defer tooty.CloseTheAPMSpan(span)
 		var authHeader string
 		if header := ctx.Request.Header["authorization"]; len(header) > 0 {
 			authHeader = header[0]
@@ -70,8 +67,6 @@ func (a *Auth) Guard(justAdmin bool) gin.HandlerFunc {
 		ctx.Set("isAdmin", user.IsAdmin)
 		ctx.Set("userId", user.Id)
 		ctx.Set("token", accessToken)
-		tooty.SetTransactionLabel(ctx.Request.Context(), "user.id", user.Id)
-		tooty.CloseTheAPMSpan(span)
 		ctx.Next()
 	}
 }

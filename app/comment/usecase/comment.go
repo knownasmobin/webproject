@@ -46,8 +46,6 @@ func (uu *commentUsecase) GetByCondition(ctx context.Context, comment domain.Com
 }
 
 func (uu *commentUsecase) Update(ctx context.Context, comment domain.Comment) (*domain.Comment, error) {
-	span := tooty.OpenAnAPMSpan(ctx, "[U] update comment", "usecase")
-	defer tooty.CloseTheAPMSpan(span)
 	commentArray, err := uu.commentRepo.Update(ctx, domain.Comment{
 		Id: comment.Id,
 	}, comment)
@@ -60,8 +58,6 @@ func (uu *commentUsecase) Update(ctx context.Context, comment domain.Comment) (*
 	return &commentArray[0], nil
 }
 func (uu *commentUsecase) GetCommentById(ctx context.Context, id int) (*domain.Comment, error) {
-	span := tooty.OpenAnAPMSpan(ctx, "[U] get comment by id", "usecase")
-	defer tooty.CloseTheAPMSpan(span)
 	comment, err := uu.commentRepo.GetCommentById(ctx, id)
 	if err != nil {
 		return nil, err

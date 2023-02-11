@@ -27,9 +27,6 @@ func (uu *categoryUsecase) Create(
 	category domain.Category,
 ) (*domain.Category, error) {
 
-	span := tooty.OpenAnAPMSpan(ctx, "[U] create new category", "usecase")
-	defer tooty.CloseTheAPMSpan(span)
-
 	dbCategory, err := uu.categoryRepo.Create(ctx, category)
 	if err != nil {
 		return nil, err
@@ -39,8 +36,7 @@ func (uu *categoryUsecase) Create(
 }
 
 func (uu *categoryUsecase) Update(ctx context.Context, category domain.Category) (*domain.Category, error) {
-	span := tooty.OpenAnAPMSpan(ctx, "[U] update category", "usecase")
-	defer tooty.CloseTheAPMSpan(span)
+
 	categoryArray, err := uu.categoryRepo.Update(ctx, domain.Category{
 		Id: category.Id,
 	}, category)
@@ -53,8 +49,7 @@ func (uu *categoryUsecase) Update(ctx context.Context, category domain.Category)
 	return &categoryArray[0], nil
 }
 func (uu *categoryUsecase) GetCategoryById(ctx context.Context, id int) (*domain.Category, error) {
-	span := tooty.OpenAnAPMSpan(ctx, "[U] get category by id", "usecase")
-	defer tooty.CloseTheAPMSpan(span)
+
 	category, err := uu.categoryRepo.GetCategoryById(ctx, id)
 	if err != nil {
 		return nil, err
@@ -62,8 +57,7 @@ func (uu *categoryUsecase) GetCategoryById(ctx context.Context, id int) (*domain
 	return category, nil
 }
 func (uu *categoryUsecase) GetAll(ctx context.Context) ([]domain.Category, error) {
-	span := tooty.OpenAnAPMSpan(ctx, "[U] get category by id", "usecase")
-	defer tooty.CloseTheAPMSpan(span)
+
 	categories, err := uu.categoryRepo.GetAll(ctx)
 	if err != nil {
 		return nil, err

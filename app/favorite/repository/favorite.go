@@ -24,8 +24,6 @@ func NewFavoriteRepository(dbConnection *gorm.DB) *favoriteRepository {
 }
 
 func (ur *favoriteRepository) Create(ctx context.Context, domainFavorite domain.Favorite) (*domain.Favorite, error) {
-	span := tooty.OpenAnAPMSpan(ctx, "[R] create favorite", "repository")
-	defer tooty.CloseTheAPMSpan(span)
 
 	favoriteDao := FromDomainFavorite(domainFavorite)
 	result := ur.Conn.Debug().Create(&favoriteDao)

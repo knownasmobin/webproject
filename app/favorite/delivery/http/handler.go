@@ -21,7 +21,7 @@ func NewFavoriteHandler(g *gin.Engine, uu domain.Usecase) {
 	rg.GET("/mostFavorites",
 		//  authMiddleware,
 		handler.getMostFavorites)
-	rg.PUT("/",
+	rg.PUT("",
 		//  authMiddleware,
 		handler.getByCondition)
 	rg.POST("",

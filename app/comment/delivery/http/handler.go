@@ -78,6 +78,7 @@ func (uh *commentHandler) getCommentById(ctx *gin.Context) {
 
 	var uri CommentIdUri
 	err := ctx.BindUri(&uri)
+
 	if err != nil {
 		x.HttpErrHandler(ctx, domain.ErrUnprocessableEntity, errMap)
 		return
@@ -131,7 +132,8 @@ func (uh *commentHandler) delete(ctx *gin.Context) {
 // @Router /comment [post]
 func (uh *commentHandler) createComment(ctx *gin.Context) {
 	var body CreateCommentBody
-	err := ctx.Bind(&body)
+	err := ctx.BindJSON(&body)
+	log.Println(body.Message, " kir")
 	if err != nil {
 		x.HttpErrHandler(ctx, domain.ErrUnprocessableEntity, errMap)
 		return

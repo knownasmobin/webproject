@@ -5,7 +5,6 @@ import (
 
 	"git.ecobin.ir/ecomicro/template/app/favorite/domain"
 
-	"git.ecobin.ir/ecomicro/tooty"
 	"gorm.io/gorm"
 )
 

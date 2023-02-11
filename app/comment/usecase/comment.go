@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"git.ecobin.ir/ecomicro/template/app/comment/domain"
-	"git.ecobin.ir/ecomicro/tooty"
 )
 
 type commentUsecase struct {

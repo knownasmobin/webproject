@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"git.ecobin.ir/ecomicro/template/app/purchase/domain"
-	"git.ecobin.ir/ecomicro/tooty"
 )
 
 type purchaseUsecase struct {

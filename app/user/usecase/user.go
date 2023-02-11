@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"git.ecobin.ir/ecomicro/template/app/user/domain"
-	"git.ecobin.ir/ecomicro/tooty"
 	"github.com/golang-jwt/jwt/v4"
 )
 

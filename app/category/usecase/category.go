@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"git.ecobin.ir/ecomicro/template/app/category/domain"
-	"git.ecobin.ir/ecomicro/tooty"
 )
 
 type categoryUsecase struct {

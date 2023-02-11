@@ -6,7 +6,6 @@ import (
 
 	"git.ecobin.ir/ecomicro/template/app/user/domain"
 
-	"git.ecobin.ir/ecomicro/tooty"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"

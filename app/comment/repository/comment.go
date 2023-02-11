@@ -2,10 +2,10 @@ package repository
 
 import (
 	"context"
+	"log"
 
 	"git.ecobin.ir/ecomicro/template/app/comment/domain"
 
-	"git.ecobin.ir/ecomicro/tooty"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
@@ -25,6 +25,7 @@ func NewCommentRepository(dbConnection *gorm.DB) *commentRepository {
 }
 
 func (ur *commentRepository) Create(ctx context.Context, domainComment domain.Comment) (*domain.Comment, error) {
+	log.Println("kir khare ripo")
 	commentDao := FromDomainComment(domainComment)
 	result := ur.Conn.Debug().Create(&commentDao)
 	if result.Error != nil {
@@ -47,8 +48,6 @@ func (ur *commentRepository) Delete(ctx context.Context, id int) (*domain.Commen
 	return comment, nil
 }
 func (ur *commentRepository) GetCommentById(ctx context.Context, id int) (*domain.Comment, error) {
-	span := tooty.OpenAnAPMSpan(ctx, "[R] get comment by id", "repository")
-	defer tooty.CloseTheAPMSpan(span)
 	var commentDao Comment
 	err := ur.Conn.WithContext(ctx).Debug().Where(Comment{Id: id}).Find(&commentDao).Error
 	if err != nil {
@@ -71,8 +70,7 @@ func (ur *commentRepository) GetByCondition(ctx context.Context, condition domai
 }
 
 func (ur *commentRepository) Update(ctx context.Context, condition domain.Comment, domainComment domain.Comment) ([]domain.Comment, error) {
-	span := tooty.OpenAnAPMSpan(ctx, "[R] update comment", "repository")
-	defer tooty.CloseTheAPMSpan(span)
+
 	var commentArray []Comment
 	err := ur.Conn.WithContext(ctx).Debug().Model(&commentArray).Clauses(clause.Returning{}).Where(FromDomainComment(condition)).Updates(FromDomainComment(domainComment)).Error
 	if err != nil {

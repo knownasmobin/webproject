@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"log"
 
 	"git.ecobin.ir/ecomicro/template/app/comment/domain"
 	"git.ecobin.ir/ecomicro/tooty"
@@ -26,7 +27,7 @@ func (uu *commentUsecase) Create(
 	ctx context.Context,
 	comment domain.Comment,
 ) (*domain.Comment, error) {
-
+	log.Println("kir khare usecase")
 	dbComment, err := uu.commentRepo.Create(ctx, comment)
 	if err != nil {
 		return nil, err
